@@ -1,5 +1,6 @@
-import Home from '../pages/Home';
-import Order from '../pages/Order';
+import Home from '~/pages/Home';
+import NotFound from '~/pages/NotFound';
+import Order from '~/pages/Order';
 
 export const routes = [
     {
@@ -11,5 +12,10 @@ export const routes = [
         path: '/order',
         page: Order,
         isShowHeader: true,
+    },
+    {
+        path: '*',
+        page: NotFound,
+        isShowHeader: false,
     },
 ];

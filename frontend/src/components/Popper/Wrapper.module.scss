@@ -1,0 +1,7 @@
+@import '../Sass/variables';
+.wrapper {
+    width: 100%;
+    min-height: 100px;
+    background-color: $bg-primary;
+    border: 1px solid $border-color;
+}

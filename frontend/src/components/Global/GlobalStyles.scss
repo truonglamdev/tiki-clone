@@ -1,0 +1,51 @@
+@import 'normalize.css'; // Note this
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap');
+@import '../Sass/variables';
+@import '../Sass/mixin';
+
+html {
+    font-size: 62.5%;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6rem;
+}
+
+ul {
+    margin: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    margin: 0 auto;
+    @include respond-to(desktop) {
+        max-width: 1240px;
+    }
+
+    @include respond-to(tablet) {
+        max-width: 900px;
+    }
+
+    @include respond-to(mobile) {
+        max-width: 600px;
+    }
+}
+
+.container-header {
+    margin: 0 auto;
+    @include respond-to(desktop) {
+        max-width: 1440px;
+    }
+
+    @include respond-to(tablet) {
+        max-width: 1280px;
+    }
+
+    @include respond-to(mobile) {
+        max-width: 600px;
+    }
+}

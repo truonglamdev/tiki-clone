@@ -1,0 +1,74 @@
+@import '../../Sass/variables';
+@import '../../Sass/mixin';
+
+.search,
+.search-result {
+    min-width: $search-width-pc;
+    @include respond-to(mobile) {
+        min-width: $search-width-m;
+    }
+    @include respond-to(tablet) {
+        min-width: $search-width-tbl;
+    }
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid $border-color;
+    height: 38px;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0px 8px;
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 150%;
+    color: $text-primary;
+}
+
+.search-btn {
+    position: relative;
+    cursor: pointer;
+    border: 0px;
+    padding: 4px 8px;
+    border-radius: 0px 8px 8px 0px;
+    background-color: transparent;
+    color: $primary-color;
+    font-size: 1.4rem;
+    width: 92px;
+    height: 38px;
+
+    @include respond-to(mobile-tablet) {
+        display: none;
+    }
+
+    &:hover {
+        background-color: $hover-primary;
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        border-left: 1px solid rgb(221, 221, 227);
+        height: 24px;
+        left: 0px;
+        top: 8px;
+
+        @include respond-to(mobile-tablet) {
+            display: none;
+        }
+    }
+}

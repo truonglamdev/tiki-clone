@@ -1,0 +1,40 @@
+$mobileWidth: 600px;
+$tabletWidth: 1023px;
+
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == mobile {
+        @media only screen and (max-width: 667px) {
+            @content;
+        }
+    } @else if $breakpoint == tablet {
+        @media only screen and (min-width: 668px) and (max-width: 1023px) {
+            @content;
+        }
+    } @else if $breakpoint == desktop {
+        @media only screen and (min-width: 1024px) {
+            @content;
+        }
+    } @else if $breakpoint == retina2 {
+        @media only screen and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
+            @content;
+        }
+    } @else if $breakpoint == retina3 {
+        @media only screen and (-webkit-min-device-pixel-ratio: 3) and (min-resolution: 288dpi) {
+            @content;
+        }
+    } @else if $breakpoint == landscape {
+        @media screen and (orientation: landscape) {
+            @content;
+        }
+    } @else if $breakpoint == portrait {
+        @media screen and (orientation: portrait) {
+            @content;
+        }
+    } @else if $breakpoint == mobile-tablet {
+        @media screen and (max-width: 1023px) {
+            @content;
+        }
+    } @else {
+        @warn "Invalid breakpoint specified. Please use one of the following: mobile, tablet, desktop, retina2, retina3, landscape, portrait.";
+    }
+}
