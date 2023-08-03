@@ -1,5 +1,19 @@
+import classNames from 'classnames/bind';
+import styles from './Home.module.scss';
+import SideBar from '~/components/Layout/SideBar/SideBar';
+
+const cx = classNames.bind(styles);
 function Home() {
-    return <div >Home</div>;
+    return (
+        <div className={cx('wrapper')}>
+            <div className={cx('home', 'container-header')}>
+                <div className={cx('side-bar')}>
+                    <SideBar />
+                </div>
+                <div className={cx('content')}>content</div>
+            </div>
+        </div>
+    );
 }
 
 export default Home;

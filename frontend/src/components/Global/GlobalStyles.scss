@@ -37,15 +37,32 @@ a {
 
 .container-header {
     margin: 0 auto;
+    padding: 24px 0;
     @include respond-to(desktop) {
         max-width: 1440px;
     }
 
     @include respond-to(tablet) {
         max-width: 1280px;
+        padding: 0 16px;
     }
 
     @include respond-to(mobile) {
         max-width: 600px;
+        padding: 0 16px;
     }
+}
+
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
 }
