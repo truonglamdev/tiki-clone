@@ -1,0 +1,17 @@
+@import './../Sass/mixin';
+@import './../Sass/variables';
+.wrapper {
+    display: grid;
+    align-self: stretch;
+    gap: 8px;
+    background-color: rgb(245, 245, 250);
+    border-top: 1px solid rgb(242, 242, 242);
+    grid-template-columns: repeat(6, 1fr);
+    padding: 20px 0;
+
+    @include respond-to(mobile-tablet) {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+}

@@ -1,6 +1,7 @@
 import Home from '~/pages/Home';
 import NotFound from '~/pages/NotFound';
 import Order from '~/pages/Order';
+import ProductDetail from '~/pages/ProductDetail';
 
 export const routes = [
     {
@@ -11,6 +12,11 @@ export const routes = [
     {
         path: '/order',
         page: Order,
+        isShowHeader: true,
+    },
+    {
+        path: '/product-detail',
+        page: ProductDetail,
         isShowHeader: true,
     },
     {
