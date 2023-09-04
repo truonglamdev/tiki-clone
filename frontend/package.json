@@ -10,6 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@ant-design/icons": "^5.2.5",
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
         "@fortawesome/free-regular-svg-icons": "^6.4.0",
         "@fortawesome/free-solid-svg-icons": "^6.4.0",
@@ -17,6 +18,7 @@
         "@reduxjs/toolkit": "^1.9.5",
         "@tippyjs/react": "^4.2.6",
         "classnames": "^2.3.2",
+        "lightbox.js-react": "^0.7.2",
         "normalize.css": "^8.0.1",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",

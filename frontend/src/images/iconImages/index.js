@@ -8,7 +8,12 @@ import prev from './prev.png';
 import appStore from './appStore.png';
 import qrcode from './qrcode.png';
 import ggPlay from './ggPlay.png';
-
+import indicator from './indicator.svg';
+import tiki from './tiki.webp';
+import official from './official.webp';
+import like from './like.png';
+import back from './back.png';
+import security from './security.png';
 const iconImages = {
     account,
     home,
@@ -20,6 +25,12 @@ const iconImages = {
     appStore,
     ggPlay,
     qrcode,
+    indicator,
+    tiki,
+    official,
+    like,
+    back,
+    security,
 };
 
 export default iconImages;

@@ -3,7 +3,6 @@ import styles from './Home.module.scss';
 import SideBar from '~/components/Layout/SideBar';
 import Banner from '~/components/Banner';
 import Products from '~/components/Products';
-import Footer from '~/components/Layout/Footer';
 
 const cx = classNames.bind(styles);
 function Home() {
@@ -16,7 +15,6 @@ function Home() {
                 <div className={cx('content')}>
                     <Banner />
                     <Products />
-                    <Footer />
                 </div>
             </div>
         </div>

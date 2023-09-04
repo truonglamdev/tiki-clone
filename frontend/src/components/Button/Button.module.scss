@@ -1,0 +1,61 @@
+@import '../Sass/variables';
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    -webkit-box-align: center;
+    justify-content: center;
+    min-width: 100px;
+    max-width: 300px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-transform: capitalize;
+    user-select: none;
+
+    + .wrapper {
+        margin-left: 8px;
+    }
+
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}
+
+.primary {
+    background-color: $active-color;
+    color: #fff;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.outline {
+    background-color: #fff;
+    color: #0d5cb6;
+    border-color: currentColor;
+}
+
+.small {
+    min-width: 100px;
+    padding: 4px 4px;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.icon + .title,
+.title + .icon {
+    margin-left: 4px;
+}
+
+.large {
+    width: 230px;
+    height: 48px;
+}
