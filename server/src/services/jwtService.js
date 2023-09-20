@@ -22,4 +22,32 @@ const generateRefreshToken = (payload) => {
     }
 };
 
-export { generateAccessToken, generateRefreshToken };
+const refreshTokenJwtService = async (token) => {
+    try {
+        const user = await jwt.verify(token, REFRESH_TOKEN_SECRET);
+        if (!user) {
+            return {
+                status: 'ERR',
+                message: 'Refresh token failed',
+            };
+        }
+        const accessToken = await generateAccessToken({
+            id: user?.id,
+            isAdmin: user?.isAdmin,
+        });
+
+        return {
+            status: 'OK',
+            message: 'SUCCESS',
+            accessToken,
+        };
+    } catch (error) {
+        console.log('Error in refreshTokenJwtService', error);
+        return {
+            status: 'ERR',
+            message: 'Refresh token failed',
+        };
+    }
+};
+
+export { generateAccessToken, generateRefreshToken, refreshTokenJwtService };
