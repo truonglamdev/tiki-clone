@@ -155,7 +155,7 @@ const resetPasswordService = async (token, user) => {
             resetPasswordExpires: { $gt: Date.now() },
         });
         if (!userExists) {
-            return res.status(400).json({ message: 'Invalid or expired token' });
+            return { status: 'ERR', message: 'Your token reset password has expired?' };
         }
 
         const hashPassword = await bcrypt.hash(user.password, 10);
@@ -172,6 +172,36 @@ const resetPasswordService = async (token, user) => {
     }
 };
 
+const updatePasswordService = async (id, user) => {
+    try {
+        const userExist = await User.findById(id);
+        if (!userExist) {
+            return {
+                status: 'ERR',
+                message: 'User not found',
+            };
+        }
+        const isComparePassword = await bcrypt.compare(user.oldPassword, userExist.password);
+
+        if (!isComparePassword) {
+            return {
+                status: 'ERR',
+                message: 'Old Password mismatch',
+            };
+        }
+
+        const hasNewPassword = await bcrypt.hash(user.newPassword, 10);
+        userExist.password = hasNewPassword;
+        await userExist.save();
+        return {
+            status: 'OK',
+            message: 'Update Password successfully',
+        };
+    } catch (error) {
+        return error;
+    }
+};
+
 export {
     createUserService,
     loginUserService,
@@ -181,4 +211,5 @@ export {
     getAllUsersService,
     forgotPasswordService,
     resetPasswordService,
+    updatePasswordService,
 };

@@ -8,6 +8,7 @@ import {
     getAllUsersService,
     forgotPasswordService,
     resetPasswordService,
+    updatePasswordService,
 } from '../services/userService.js';
 
 import { refreshTokenJwtService } from '../services/jwtService.js';
@@ -187,13 +188,34 @@ const resetPassword = async (req, res) => {
         const response = await resetPasswordService(token, req.body);
         res.status(200).json(response);
     } catch (error) {
-        console.error('Error in forgotPassword:', error);
+        console.error('Error in resetPassword:', error);
         return res.status(400).json({
             errors: error.errors,
         });
     }
 };
 
+const updatePassword = async (req, res) => {
+    try {
+        const createUserSchema = yup.object().shape({
+            oldPassword: yup.string().required('Old Password is required'),
+            newPassword: yup.string().required('New Password is required'),
+            confirmNewPassword: yup
+                .string()
+                .oneOf([yup.ref('newPassword'), null], 'Password must match')
+                .required('Confirm new password is required'),
+        });
+        await createUserSchema.validate(req.body, { abortEarly: false });
+
+        const response = await updatePasswordService(req.params.id, req.body);
+        res.status(200).json(response);
+    } catch (error) {
+        console.error('Error in updatePassword:', error);
+        return res.status(400).json({
+            errors: error.errors,
+        });
+    }
+};
 export {
     createUser,
     loginUser,
@@ -205,4 +227,5 @@ export {
     getAllUsers,
     forgotPassword,
     resetPassword,
+    updatePassword,
 };
