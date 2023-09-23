@@ -13,7 +13,7 @@ const createProduct = async (req, res) => {
         });
 
         await createProductSchema.validate(req.body, { abortEarly: false });
-        const response = await createProductService();
+        const response = await createProductService(req.body);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(400).json({

@@ -1,6 +1,6 @@
 const createProductService = async (product) => {
     try {
-        const {} = product;
+        const {name , } = product;
     } catch (error) {}
 };
 
