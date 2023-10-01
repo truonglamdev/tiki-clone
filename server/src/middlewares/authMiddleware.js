@@ -16,6 +16,7 @@ const authMiddleware = (req, res, next) => {
             });
         }
         if (user && user.isAdmin) {
+            req.user = user;
             next();
         } else {
             return res.status(403).json({
@@ -44,6 +45,7 @@ const authUserMiddleware = (req, res, next) => {
                 });
             }
             if (user.isAdmin || user.id === userId) {
+                req.user = user;
                 next();
             } else {
                 return res.status(403).json({

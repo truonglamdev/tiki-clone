@@ -26,6 +26,7 @@ const createUser = async (req, res) => {
         });
         await createUserSchema.validate(req.body, { abortEarly: false });
         const response = await createUserService(req.body);
+
         return res.status(200).json(response);
     } catch (error) {
         return res.status(400).json({
@@ -42,6 +43,11 @@ const loginUser = async (req, res) => {
         });
         await loginUserSchema.validate(req.body, { abortEarly: false });
         const response = await loginUserService(req.body);
+        res.cookie('accessToken', response.accessToken, {
+            httpOnly: true,
+            maxAge: 72 * 60 * 60 * 1000,
+        });
+
         return res.status(200).json(response);
     } catch (error) {
         console.error(error);

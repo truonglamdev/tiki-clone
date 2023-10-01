@@ -10,7 +10,11 @@ const productSchema = new Schema({
         type: String,
         required: [true, 'Please enter product image'],
     },
-    type: {
+    category: {
+        type: String,
+        require: true,
+    },
+    brand: {
         type: String,
         require: true,
     },
@@ -18,10 +22,7 @@ const productSchema = new Schema({
         type: Number,
         required: [true, 'Please enter product price'],
     },
-    rating: {
-        type: Number,
-        required: [true, 'Please enter product rating'],
-    },
+
     countInStock: {
         type: Number,
         required: true,
@@ -31,16 +32,12 @@ const productSchema = new Schema({
     description: { type: String },
     reviews: [
         {
-            user: {
-                type: mongoose.Schema.ObjectId,
+            postedBy: {
+                type: mongoose.Schema.Types.ObjectId,
                 ref: 'User',
                 required: true,
             },
-            name: {
-                type: String,
-                required: true,
-            },
-            rating: { type: Number, required: true },
+            star: { type: Number, required: true, default: 0 },
             comment: {
                 type: String,
             },
@@ -51,6 +48,13 @@ const productSchema = new Schema({
         type: Number,
         default: 0,
     },
+    averageStar: {
+        type: Number,
+        default: 0,
+    },
+
+    colors: { type: [Schema.Types.Mixed] },
+    sizes: { type: [Schema.Types.Mixed] },
 });
 
 const Product = mongoose.model('Product', productSchema);

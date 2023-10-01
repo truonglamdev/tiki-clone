@@ -27,6 +27,7 @@ const userSchema = new Schema(
         address: {
             type: String,
         },
+        wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
         city: { type: String },
         phone: { type: String },
         avatar: {
