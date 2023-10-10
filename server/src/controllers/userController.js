@@ -9,9 +9,15 @@ import {
     forgotPasswordService,
     resetPasswordService,
     updatePasswordService,
+    getWishlistService,
+    userCartService,
+    getUserCartService,
+    emptyUserCartService,
+    applyCouponService,
 } from '../services/userService.js';
 
 import { refreshTokenJwtService } from '../services/jwtService.js';
+import validateMongoDbId from './../utils/validateMongoDbId.js';
 const createUser = async (req, res) => {
     try {
         const createUserSchema = yup.object().shape({
@@ -212,7 +218,6 @@ const updatePassword = async (req, res) => {
                 .required('Confirm new password is required'),
         });
         await createUserSchema.validate(req.body, { abortEarly: false });
-
         const response = await updatePasswordService(req.params.id, req.body);
         res.status(200).json(response);
     } catch (error) {
@@ -220,6 +225,62 @@ const updatePassword = async (req, res) => {
         return res.status(400).json({
             errors: error.errors,
         });
+    }
+};
+
+const getWishlist = async (req, res) => {
+    const { id } = req.user;
+    try {
+        const response = await getWishlistService(id);
+        res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
+    }
+};
+
+const userCart = async (req, res) => {
+    const { id } = req.user;
+    const { cart } = req.body;
+    try {
+        validateMongoDbId(id);
+        const response = await userCartService(id, cart);
+        res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
+    }
+};
+
+const getUserCart = async (req, res) => {
+    const { id } = req.user;
+    try {
+        validateMongoDbId(id);
+        const response = await getUserCartService(id);
+        res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
+    }
+};
+
+const emptyUserCart = async (req, res) => {
+    try {
+        const { id } = req.user;
+        validateMongoDbId(id);
+        const response = await emptyUserCartService(id);
+        res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
+    }
+};
+
+const applyCoupon = async (req, res) => {
+    try {
+        const { id } = req.user;
+
+        validateMongoDbId(id);
+        const response = await applyCouponService(id, req.body);
+        res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 export {
@@ -234,4 +295,9 @@ export {
     forgotPassword,
     resetPassword,
     updatePassword,
+    getWishlist,
+    userCart,
+    getUserCart,
+    emptyUserCart,
+    applyCoupon,
 };

@@ -5,6 +5,8 @@ import bodyParser from 'body-parser';
 import { connectDb } from './src/config/database.js';
 import userRoute from './src/routes/userRoute.js';
 import productRoute from './src/routes/productRoute.js';
+import couponRoute from './src/routes/couponRoute.js';
+import orderRoute from './src/routes/orderRoute.js';
 const app = express();
 dotenv.config();
 app.use(cors());
@@ -15,6 +17,8 @@ const port = process.env.PORT || 3001;
 
 app.use('/api/v1', userRoute);
 app.use('/api/v1', productRoute);
+app.use('/api/v1', couponRoute);
+app.use('/api/v1', orderRoute);
 
 app.listen(port, () => {
     console.log(`Server is listening on port http://localhost:${process.env.PORT}`);

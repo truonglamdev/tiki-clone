@@ -186,6 +186,8 @@ const rateProductService = async (id, data) => {
         return createMessage(500, error.message);
     }
 };
+
+
 export {
     createProductService,
     updateProductService,

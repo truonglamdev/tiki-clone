@@ -27,8 +27,8 @@ const productSchema = new Schema({
         type: Number,
         required: true,
     },
+    sold: { type: Number, default: 0 },
     discount: { type: String },
-    seller: { type: Number },
     description: { type: String },
     reviews: [
         {
