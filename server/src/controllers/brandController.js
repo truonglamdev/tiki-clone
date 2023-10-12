@@ -1,69 +1,69 @@
 import {
-    createColorService,
-    getColorService,
-    getAllColorsService,
-    updateColorService,
-    deleteColorService,
-} from '../services/colorService.js';
+    createBrandService,
+    deleteBrandService,
+    getAllBrandsService,
+    getBrandService,
+    updateBrandService,
+} from '../services/brandService.js';
 import validateMongoDbId from '../utils/validateMongoDbId.js';
 
-const createColor = async (req, res) => {
+const createBrand = async (req, res) => {
     const { title } = req.body;
     try {
         if (!title) {
-            return res.status(404).json({ message: 'Color is required' });
+            return res.status(404).json({ message: 'Brand is required' });
         }
-        const response = await createColorService(req.body);
+        const response = await createBrandService(req.body);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-const getColor = async (req, res) => {
+const getBrand = async (req, res) => {
     try {
         const { id } = req.params;
         validateMongoDbId(id);
-        const response = await getColorService(id);
+        const response = await getBrandService(id);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-const getAllColors = async (req, res) => {
+const getAllBrands = async (req, res) => {
     try {
-        const response = await getAllColorsService();
+        const response = await getAllBrandsService();
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-const updateColor = async (req, res) => {
+const updateBrand = async (req, res) => {
     try {
         const { title } = req.body;
         const { id } = req.params;
         validateMongoDbId(id);
         if (!title) {
-            return res.status(404).json({ message: 'Color title is required' });
+            return res.status(404).json({ message: 'Brand title is required' });
         }
-        const response = await updateColorService(id, req.body);
+        const response = await updateBrandService(id, req.body);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-const deleteColor = async (req, res) => {
+const deleteBrand = async (req, res) => {
     try {
         const { id } = req.params;
         validateMongoDbId(id);
-        const response = await deleteColorService(id);
+        const response = await deleteBrandService(id);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-export { createColor, getColor, getAllColors, updateColor, deleteColor };
+export { createBrand, deleteBrand, getAllBrands, getBrand, updateBrand };

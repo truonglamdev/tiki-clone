@@ -1,9 +1,9 @@
 import Color from '../models/colorModel.js';
-import Coupon from '../models/couponModel.js';
 import createMessage from '../utils/createMessage.js';
 
 const createColorService = async (newColor) => {
     try {
+        console.log(newColor);
         const createColor = await Color.create(newColor);
         return createMessage(200, 'Success', { data: createColor });
     } catch (error) {
@@ -11,43 +11,45 @@ const createColorService = async (newColor) => {
     }
 };
 
-const updateCouponService = async (id, updatedCoupon) => {
+const getColorService = async (id) => {
     try {
-        const exitsCoupon = await Coupon.findById(id);
-        if (!exitsCoupon) {
+        const color = await Color.findById(id);
+        if (!color) {
             return createMessage(404, 'Coupon not found');
         }
-        const updateCoupon = await Coupon.findByIdAndUpdate(id, updatedCoupon, { new: true });
-        return createMessage(200, 'Success', { data: updateCoupon });
+        return createMessage(200, 'Success', { data: color });
     } catch (error) {
         return createMessage(500, error.message);
     }
 };
 
-const getAllCouponsService = async () => {
+const getAllColorsService = async () => {
     try {
-        const allCoupons = await Coupon.find();
-        return createMessage(200, 'Success', { data: allCoupons });
+        const allColors = await Color.find();
+        return createMessage(200, 'Success', { data: allColors });
     } catch (error) {
         return createMessage(500, error.message);
     }
 };
 
-const getCouponService = async (id) => {
+const updateColorService = async (id, title) => {
     try {
-        const coupon = await Coupon.findById(id);
-        return createMessage(200, 'Success', { data: coupon });
+        const colorUpdate = await Color.findByIdAndUpdate(id, title, { new: true });
+        if (!colorUpdate) {
+            createMessage(400, 'Update color failed');
+        }
+        return createMessage(200, 'Success', { data: colorUpdate });
     } catch (error) {
         return createMessage(500, error.message);
     }
 };
 
-const deleteCouponService = async (id) => {
+const deleteColorService = async (id) => {
     try {
-        await Coupon.findByIdAndDelete(id);
+        await Color.findByIdAndDelete(id);
         return createMessage(200, 'Delete success ');
     } catch (error) {
         return createMessage(500, error.message);
     }
 };
-export { createColorService, updateCouponService, getAllCouponsService, getCouponService, deleteCouponService };
+export { createColorService, getColorService, getAllColorsService, updateColorService, deleteColorService };

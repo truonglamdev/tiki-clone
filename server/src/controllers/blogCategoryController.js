@@ -1,69 +1,71 @@
 import {
-    createColorService,
-    getColorService,
-    getAllColorsService,
-    updateColorService,
-    deleteColorService,
-} from '../services/colorService.js';
+    createBlogCategoryService,
+    deleteBlogCategoryService,
+    getAllBlogCategoriesService,
+    getBlogCategoryService,
+    updateBlogCategoryService,
+} from '../services/blogCategoryService.js';
+
 import validateMongoDbId from '../utils/validateMongoDbId.js';
 
-const createColor = async (req, res) => {
+const createBlogCategory = async (req, res) => {
     const { title } = req.body;
     try {
         if (!title) {
-            return res.status(404).json({ message: 'Color is required' });
+            return res.status(404).json({ message: 'Blog category is required' });
         }
-        const response = await createColorService(req.body);
+        const response = await createBlogCategoryService(req.body);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-const getColor = async (req, res) => {
+const getBlogCategory = async (req, res) => {
     try {
         const { id } = req.params;
         validateMongoDbId(id);
-        const response = await getColorService(id);
+        const response = await getBlogCategoryService(id);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-const getAllColors = async (req, res) => {
+const getAllBlogCategories = async (req, res) => {
     try {
-        const response = await getAllColorsService();
+        const response = await getAllBlogCategoriesService();
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-const updateColor = async (req, res) => {
+const updateBlogCategory = async (req, res) => {
     try {
         const { title } = req.body;
         const { id } = req.params;
         validateMongoDbId(id);
         if (!title) {
-            return res.status(404).json({ message: 'Color title is required' });
+            return res.status(404).json({ message: 'Brand title is required' });
         }
-        const response = await updateColorService(id, req.body);
+        const response = await updateBlogCategoryService(id, req.body);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-const deleteColor = async (req, res) => {
+const deleteBlogCategory = async (req, res) => {
     try {
         const { id } = req.params;
         validateMongoDbId(id);
-        const response = await deleteColorService(id);
+        const response = await deleteBlogCategoryService(id);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
-export { createColor, getColor, getAllColors, updateColor, deleteColor };
+export { createBlogCategory, deleteBlogCategory, getAllBlogCategories, getBlogCategory, updateBlogCategory };
+
