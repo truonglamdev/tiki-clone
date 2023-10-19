@@ -6,10 +6,12 @@ const productSchema = new Schema({
         type: String,
         required: [true, 'Please enter product name'],
     },
-    images: {
-        type: String,
-        required: [true, 'Please enter product image'],
-    },
+    images: [
+        {
+            public_id: String,
+            url: String,
+        },
+    ],
     category: {
         type: String,
         require: true,

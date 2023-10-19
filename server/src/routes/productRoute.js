@@ -9,11 +9,22 @@ import {
     searchProduct,
     addToWishlist,
     rateProduct,
+    uploadProductImages,
 } from '../controllers/productController.js';
 import { authMiddleware, authUserMiddleware } from '../middlewares/authMiddleware.js';
+import { productImgResize, uploadImage } from '../middlewares/uploadImage.js';
 const router = express.Router();
 
+//upload images products
+router.post(
+    '/product/upload-img/:id',
+    authMiddleware,
+    uploadImage.array('images', 10),
+    productImgResize,
+    uploadProductImages,
+);
 router.post('/product', createProduct);
+
 router.put('/product/:id', updateProduct);
 router.get('/product/:id', getDetailProduct);
 router.delete('/product/:id', authMiddleware, deleteProduct);

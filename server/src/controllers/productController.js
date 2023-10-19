@@ -8,6 +8,7 @@ import {
     getAllProductService,
     addToWishlistService,
     rateProductService,
+    uploadProductImagesService,
 } from '../services/productService.js';
 import yup from 'yup';
 import validateMongoDbId from '../utils/validateMongoDbId.js';
@@ -145,6 +146,26 @@ const rateProduct = async (req, res) => {
     }
 };
 
+//upload images controller
+
+const uploadProductImages = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { files } = req;
+        validateMongoDbId(id);
+        if (files.length === 0) {
+            return res.status(404).json({ message: 'Files not found' });
+        }
+        const response = await uploadProductImagesService(id, files);
+        return res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({
+            status: 'ERR',
+            message: `Internal Server Error : ${error.message}`,
+        });
+    }
+};
+
 export {
     createProduct,
     updateProduct,
@@ -155,4 +176,5 @@ export {
     searchProduct,
     addToWishlist,
     rateProduct,
+    uploadProductImages,
 };
