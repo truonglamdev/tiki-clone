@@ -12,7 +12,7 @@ const blogSchema = new Schema(
         likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         author: { type: String, default: 'Admin' },
-        images: [],
+        images: [{ url: String, public_id: String }],
     },
     {
         timestamps: true,

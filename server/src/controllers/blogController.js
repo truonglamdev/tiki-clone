@@ -6,6 +6,7 @@ import {
     getBlogService,
     likeTheBlogService,
     updateBlogService,
+    uploadBlogImagesService,
 } from '../services/blogService.js';
 import validateMongoDbId from '../utils/validateMongoDbId.js';
 
@@ -81,4 +82,22 @@ const dislikeTheBlog = async (req, res) => {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
-export { createBlog, getBlog, getAllBlogs, updateBlog, deleteBlog, likeTheBlog, dislikeTheBlog };
+
+const uploadBlogImages = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { files } = req;
+        validateMongoDbId(id);
+        if (!files || files.length === 0) {
+            return res.status(404).json({ message: 'Files not found' });
+        }
+        const response = await uploadBlogImagesService(id, files);
+        return res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({
+            status: 'ERR',
+            message: `Internal Server Error : ${error.message}`,
+        });
+    }
+};
+export { createBlog, getBlog, getAllBlogs, updateBlog, deleteBlog, likeTheBlog, dislikeTheBlog, uploadBlogImages };

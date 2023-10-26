@@ -1,9 +1,9 @@
 import { v2 as cloudinary } from 'cloudinary';
 
 cloudinary.config({
-    cloud_name: 'dsfx720gh',
-    api_key: '259779196625337',
-    api_secret: 'x3GN-m8PNsXScWw6VN6D1FdVChs',
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
 });
 
 const cloudinaryUploadImg = async (fileToUploads) => {

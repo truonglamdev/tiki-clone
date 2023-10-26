@@ -1,4 +1,6 @@
+import fs from 'fs';
 import Blog from '../models/blogModel.js';
+import { cloudinaryUploadImg } from '../utils/cloudinary.js';
 import createMessage from '../utils/createMessage.js';
 import validateMongoDbId from '../utils/validateMongoDbId.js';
 
@@ -84,11 +86,41 @@ const likeOrDisLikeBlog = async (req, isLike) => {
 };
 
 const likeTheBlogService = async (req) => {
-    return likeOrDisLikeBlog(req, true)
+    return likeOrDisLikeBlog(req, true);
 };
 
 const DislikeTheBlogService = async (req) => {
     return likeOrDisLikeBlog(req, false);
+};
+
+const uploadBlogImagesService = async (blogId, files) => {
+    try {
+        const blog = await Blog.findById(blogId);
+        if (!blog) {
+            return createMessage(404, 'Blog not found');
+        }
+
+        const uploader = (path) => cloudinaryUploadImg(path, 'images');
+        const urls = [];
+        for (let file of files) {
+            const { path } = file;
+            const newpath = await uploader(path);
+            urls.push(newpath);
+            if (fs.existsSync(path)) {
+                try {
+                    fs.unlinkSync(path);
+                } catch (err) {
+                    console.error(`Error deleting file: ${err}`);
+                }
+            }
+        }
+        const newImages = urls.map((item) => ({ url: item.url, public_id: item.public_id }));
+        blog.images = newImages;
+        await blog.save();
+        return createMessage(200, 'Success', { data: blog });
+    } catch (error) {
+        return createMessage(500, error.message);
+    }
 };
 export {
     createBlogService,
@@ -98,4 +130,5 @@ export {
     updateBlogService,
     likeTheBlogService,
     DislikeTheBlogService,
+    uploadBlogImagesService,
 };

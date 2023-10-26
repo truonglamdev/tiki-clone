@@ -1,4 +1,6 @@
 {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "cSpell.languageSettings": [],
+  "vscode_custom_css.imports": ["file:///E:My_Project/Source_Project/Vscode/customs.css"]
 }
