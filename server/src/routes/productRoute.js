@@ -10,6 +10,7 @@ import {
     addToWishlist,
     rateProduct,
     uploadProductImages,
+    deleteProductImages,
 } from '../controllers/productController.js';
 import { authMiddleware, authUserMiddleware } from '../middlewares/authMiddleware.js';
 import { productImgResize, uploadImage } from '../middlewares/uploadImage.js';
@@ -23,8 +24,10 @@ router.post(
     productImgResize,
     uploadProductImages,
 );
-router.post('/product', createProduct);
+//delete images products
+router.delete('/product/delete-img/:id', authMiddleware, deleteProductImages);
 
+router.post('/product', createProduct);
 router.put('/product/:id', updateProduct);
 router.get('/product/:id', getDetailProduct);
 router.delete('/product/:id', authMiddleware, deleteProduct);

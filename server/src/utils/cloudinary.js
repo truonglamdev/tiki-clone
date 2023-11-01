@@ -11,7 +11,8 @@ const cloudinaryUploadImg = async (fileToUploads) => {
         cloudinary.uploader.upload(
             fileToUploads,
             {
-                resource_type: 'auto',
+                folder: 'tiki',
+                resource_type: 'image',
             },
             (error, result) => {
                 if (error) {
@@ -27,5 +28,16 @@ const cloudinaryUploadImg = async (fileToUploads) => {
         );
     });
 };
+const cloudinaryDeleteImg = async (listPublicId) => {
+    return new Promise((resolve, reject) => {
+        cloudinary.api.delete_resources(listPublicId, { type: 'upload', resource_type: 'image' }, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
 
-export { cloudinaryUploadImg };
+export { cloudinaryUploadImg, cloudinaryDeleteImg };

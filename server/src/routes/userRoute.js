@@ -21,6 +21,8 @@ import { authMiddleware, authUserMiddleware } from '../middlewares/authMiddlewar
 
 const router = express.Router();
 
+
+
 router.route('/auth/register').post(createUser);
 router.route('/auth/login').post(loginUser);
 router.route('/auth/logout').post(logoutUser);

@@ -1,6 +1,6 @@
 import Product from '../models/productModel.js';
 import User from '../models/userModel.js';
-import { cloudinaryUploadImg } from '../utils/cloudinary.js';
+import { cloudinaryDeleteImg, cloudinaryUploadImg } from '../utils/cloudinary.js';
 import fs from 'fs';
 import createMessage from '../utils/createMessage.js';
 const createProductService = async (newProduct) => {
@@ -202,18 +202,28 @@ const uploadProductImagesService = async (productId, files) => {
             const { path } = file;
             const newpath = await uploader(path);
             urls.push(newpath);
-            if (fs.existsSync(path)) {
-                try {
-                    fs.unlinkSync(path);
-                } catch (err) {
-                    console.error(`Error deleting file: ${err}`);
-                }
-            }
+            fs.unlinkSync(path);
         }
+
         const newImages = urls.map((item) => ({ url: item.url, public_id: item.public_id }));
-        product.images = newImages;
+        newImages.map((image) => product.images.push(image));
         await product.save();
         return createMessage(200, 'Success', { data: product });
+    } catch (error) {
+        return createMessage(500, error.message);
+    }
+};
+
+const deleteProductImagesService = async (productId, publicIds) => {
+    try {
+        const product = await Product.findById(productId);
+        if (!product) {
+            return createMessage(404, 'Product not found');
+        }
+        await cloudinaryDeleteImg(publicIds, 'images');
+        product.images = product.images.filter((image) => !publicIds.includes(image.public_id));
+        await product.save();
+        return createMessage(200, 'Deleted successfully');
     } catch (error) {
         return createMessage(500, error.message);
     }
@@ -230,4 +240,5 @@ export {
     addToWishlistService,
     rateProductService,
     uploadProductImagesService,
+    deleteProductImagesService,
 };

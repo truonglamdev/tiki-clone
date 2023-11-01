@@ -9,6 +9,7 @@ import {
     addToWishlistService,
     rateProductService,
     uploadProductImagesService,
+    deleteProductImagesService,
 } from '../services/productService.js';
 import yup from 'yup';
 import validateMongoDbId from '../utils/validateMongoDbId.js';
@@ -166,6 +167,24 @@ const uploadProductImages = async (req, res) => {
     }
 };
 
+const deleteProductImages = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { listPublicId } = req.body;
+        validateMongoDbId(id);
+        if (listPublicId.length === 0) {
+            return res.status(404).json({ message: 'Public id is required' });
+        }
+        const response = await deleteProductImagesService(id, listPublicId);
+        return res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({
+            status: 'ERR',
+            message: `Internal Server Error : ${error.message}`,
+        });
+    }
+};
+
 export {
     createProduct,
     updateProduct,
@@ -177,4 +196,5 @@ export {
     addToWishlist,
     rateProduct,
     uploadProductImages,
+    deleteProductImages,
 };

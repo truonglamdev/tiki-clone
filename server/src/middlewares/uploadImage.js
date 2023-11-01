@@ -51,7 +51,7 @@ const imageResizeAndSave = (outputPath) => async (req, res, next) => {
     next();
 };
 
-const productImgResize = imageResizeAndSave('public/images/products');
-const blogImgResize = imageResizeAndSave('public/images/blogs');
+const productImgResize = imageResizeAndSave('public/images');
+const blogImgResize = imageResizeAndSave('public/images');
 
 export { uploadImage, productImgResize, blogImgResize };

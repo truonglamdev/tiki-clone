@@ -16,7 +16,6 @@ import authRoute from './src/routes/authRoute.js';
 import passportConfig from './src/config/passportConfig.js';
 import passport from 'passport';
 import expressSession from 'express-session';
-// import FacebookStrategy from 'passport-facebook';
 
 const app = express();
 dotenv.config();
@@ -36,8 +35,6 @@ app.use(
     }),
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use('/api/v1', userRoute);
 app.use('/api/v1', productRoute);
@@ -48,6 +45,8 @@ app.use('/api/v1', brandRoute);
 app.use('/api/v1', blogCategoryRoute);
 app.use('/api/v1', blogRoute);
 app.use('/api/v1', authRoute);
+
+
 
 app.listen(port, () => {
     console.log(`Server is listening on port http://localhost:${process.env.PORT}`);
