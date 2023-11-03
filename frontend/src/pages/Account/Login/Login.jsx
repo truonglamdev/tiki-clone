@@ -6,9 +6,13 @@ import Button from '~/components/Button/Button';
 import InputField from '~/components/InputField/InputField';
 import FormLayout from '~/components/Layout/FormLayout';
 import styles from './Login.module.scss';
+import * as request from '~/utils/request';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '~/redux/actions/authAction';
 
 const cx = classNames.bind(styles);
 function Login() {
+    const dispatch = useDispatch();
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
         password: Yup.string().required('Password is required'),
@@ -21,8 +25,7 @@ function Login() {
     } = useForm({ resolver: yupResolver(validationSchema) });
 
     const onSubmit = ({ username, password }) => {
-        console.log(username);
-        console.log(password);
+        dispatch(loginUser({ username, password }));
     };
 
     const handleForgotPassword = () => {
