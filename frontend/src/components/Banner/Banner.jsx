@@ -3,6 +3,7 @@ import 'react-slideshow-image/dist/styles.css';
 import classNames from 'classnames/bind';
 import styles from './Banner.module.scss';
 import iconImages from '~/images/iconImages';
+import * as request from '~/utils/request';
 
 const cx = classNames.bind(styles);
 
@@ -38,6 +39,12 @@ function Banner() {
 
     const indicators = () => <div className={cx('indicator')}></div>;
 
+    const handleClick = async () => {
+        const res = await request.get('user/650add4ce8a1dc87787aec70', {});
+        alert('click me');
+        console.log(res);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('banner-slide')}>
@@ -60,7 +67,7 @@ function Banner() {
                 </Slide>
             </div>
 
-            <div className={cx('banner-img')}>
+            <div className={cx('banner-img')} onClick={handleClick}>
                 <img src={images[1]} alt="" />
             </div>
         </div>

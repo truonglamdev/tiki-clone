@@ -11,7 +11,7 @@ function InputField({ name, title = '', register, errors }) {
         if (name === 'password') {
             setType('password');
         }
-    }, []);
+    }, [name]);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('input-group', errors[name]?.message ? 'invalid' : '')}>

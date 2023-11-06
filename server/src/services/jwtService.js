@@ -2,9 +2,10 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_SECRET, REFRESH_TOKEN_EXPIRY } = process.env;
+
 const generateAccessToken = (payload) => {
     try {
-        const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY });
+        const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: 60 });
         return accessToken;
     } catch (error) {
         console.log('Error generating access token', error);

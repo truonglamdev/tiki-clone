@@ -18,6 +18,7 @@ import {
 
 import { refreshTokenJwtService } from '../services/jwtService.js';
 import validateMongoDbId from './../utils/validateMongoDbId.js';
+import { getString } from '../utils/getString.js';
 const createUser = async (req, res) => {
     try {
         const createUserSchema = yup.object().shape({
@@ -49,9 +50,9 @@ const loginUser = async (req, res) => {
         });
         await loginUserSchema.validate(req.body, { abortEarly: false });
         const response = await loginUserService(req.body);
-        res.cookie('accessToken', response.accessToken, {
+
+        res.cookie('refreshToken', response.refreshToken, {
             httpOnly: true,
-            maxAge: 72 * 60 * 60 * 1000,
         });
 
         return res.status(200).json(response);
@@ -65,16 +66,35 @@ const loginUser = async (req, res) => {
 
 const logoutUser = async (req, res) => {
     try {
-        res.clearCookie('refresh_token');
+        res.clearCookie('accessToken');
+        res.clearCookie('refreshToken');
         return res.status(200).json({
             status: 'OK',
             message: 'Logout successfully',
         });
     } catch (error) {
-        console.error('Error in logoutUser:', error);
-        return res.status(500).json({
-            message: 'Internal server error',
-        });
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
+    }
+};
+
+const refreshToken = async (req, res) => {
+    try {
+        // const tokenString = req.headers.cookie;
+        // console.log('check', tokenString);
+        // const regex = /refreshToken=([^;]+)/;
+        // const refreshToken = getString(tokenString, regex);
+
+        const refreshToken = await req.headers.refreshtoken?.split(' ')[1];
+        if (!refreshToken) {
+            return res.status(401).json({
+                status: 'ERR',
+                message: 'Token is required',
+            });
+        }
+        const response = await refreshTokenJwtService(refreshToken);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
@@ -89,30 +109,7 @@ const updateUser = async (req, res) => {
         const response = await updateUserService(userId, data);
         return res.status(200).json(response);
     } catch (error) {
-        console.log(error);
-        return res.status(400).json({
-            errors: error.errors,
-        });
-    }
-};
-
-const refreshToken = async (req, res) => {
-    try {
-        const token = req.headers.authorization?.split(' ')[1];
-        console.log(token);
-        if (!token) {
-            return res.status(401).json({
-                status: 'ERR',
-                message: 'Token is required',
-            });
-        }
-        const response = await refreshTokenJwtService(token);
-        return res.status(200).json(response);
-    } catch (error) {
-        console.error('Error in refreshToken:', error);
-        return res.status(500).json({
-            message: 'Internal server error',
-        });
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 

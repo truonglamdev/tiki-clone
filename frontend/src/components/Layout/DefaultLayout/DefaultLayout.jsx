@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import Header from '../Header';
 import Footer from '../Footer';
+import ToastContainerCustom from '~/customs/toastMessage/ToastContainerCustom';
 
 export default function DefaultLayout({ children }) {
     return (
@@ -9,6 +10,7 @@ export default function DefaultLayout({ children }) {
             <Header />
             <div>{children}</div>
             <Footer />
+            <ToastContainerCustom />
         </div>
     );
 }
