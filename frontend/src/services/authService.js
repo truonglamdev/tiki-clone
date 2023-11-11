@@ -16,4 +16,19 @@ const refreshTokenService = async () => {
     return res?.accessToken;
 };
 
-export { loginService, refreshTokenService };
+const logoutService = async () => {
+    const res = await request.post('auth/logout');
+    if (res) {
+        cookies.remove('accessToken');
+        cookies.remove('refreshToken');
+        localStorage.removeItem('user');
+    }
+    return res;
+};
+
+const registerUserService = async (data) => {
+    const res = await request.post('auth/register', data);
+    return res;
+};
+
+export { loginService, refreshTokenService, logoutService, registerUserService };

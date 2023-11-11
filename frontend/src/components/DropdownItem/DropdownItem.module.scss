@@ -1,0 +1,9 @@
+.wrapper {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+        background-color: #e5e5e5;
+    }
+}

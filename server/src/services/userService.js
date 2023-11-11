@@ -9,17 +9,17 @@ import Coupon from './../models/couponModel.js';
 
 const createUserService = async (user) => {
     try {
-        const { email, password, name, phone } = user;
+        const { email, password, name } = user;
         const isUserExist = await User.findOne({ email: email });
         if (isUserExist) {
             return { status: 'ERR', message: 'User already exists' };
         }
         //Hash password with bcrypt
         const hashPassword = await bcrypt.hash(password, 10);
-        const createNewUser = await User.create({ name, email, password: hashPassword, phone });
-        return { status: 'OK', message: 'User created successfully', data: createNewUser };
+        const createNewUser = await User.create({ name, email, password: hashPassword });
+        return createMessage(200, 'User created successfully', { data: createNewUser });
     } catch (error) {
-        return error;
+        return createMessage(500, error.message);
     }
 };
 

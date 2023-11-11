@@ -18,7 +18,6 @@ import {
 
 import { refreshTokenJwtService } from '../services/jwtService.js';
 import validateMongoDbId from './../utils/validateMongoDbId.js';
-import { getString } from '../utils/getString.js';
 const createUser = async (req, res) => {
     try {
         const createUserSchema = yup.object().shape({
@@ -29,16 +28,13 @@ const createUser = async (req, res) => {
                 .string()
                 .oneOf([yup.ref('password'), null], 'Password must match')
                 .required('Confirm password is required'),
-            phone: yup.string(),
         });
         await createUserSchema.validate(req.body, { abortEarly: false });
         const response = await createUserService(req.body);
 
         return res.status(200).json(response);
     } catch (error) {
-        return res.status(400).json({
-            errors: error.errors,
-        });
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
@@ -79,11 +75,6 @@ const logoutUser = async (req, res) => {
 
 const refreshToken = async (req, res) => {
     try {
-        // const tokenString = req.headers.cookie;
-        // console.log('check', tokenString);
-        // const regex = /refreshToken=([^;]+)/;
-        // const refreshToken = getString(tokenString, regex);
-
         const refreshToken = await req.headers.refreshtoken?.split(' ')[1];
         if (!refreshToken) {
             return res.status(401).json({

@@ -6,35 +6,9 @@ import { refreshTokenService } from '~/services/authService';
 const cookies = new Cookies();
 
 const baseURL = import.meta.env.VITE_BASE_URL_API;
-const instance = axios.create({
+export const instance = axios.create({
     baseURL: baseURL,
 });
-
-// instance.interceptors.request.use(
-//     async (config) => {
-//         console.log('check');
-//         // Do something before request is sent
-//         const accessToken = cookies.get('accessToken');
-//         const refreshToken = cookies.get('refreshToken');
-//         const decodeAccessToken = jwtDecode(accessToken);
-//         const decodeRefreshToken = jwtDecode(refreshToken);
-//         const currentTime = new Date().getTime() / 1000;
-//         if (decodeAccessToken.exp < currentTime) {
-//             if (decodeRefreshToken.exp > currentTime) {
-//                 const res = await refreshTokenService(refreshToken);
-//                 config.headers.Authorization = `Bearer ${res.accessToken}`;
-//                 console.log(res);
-//             } else {
-//                 console.log('reset');
-//             }
-//         }
-//         return config;
-//     },
-//     function (error) {
-//         // Do something with request error
-//         return Promise.reject(error);
-//     },
-// );
 
 instance.interceptors.request.use(
     function (config) {

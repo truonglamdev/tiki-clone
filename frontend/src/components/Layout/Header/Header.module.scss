@@ -31,7 +31,7 @@
 
 .search {
     width: $search-width-pc;
-    
+
     @include respond-to(tablet) {
         min-width: $search-width-tbl;
     }
@@ -58,6 +58,7 @@
     color: $text-primary;
     padding: 8px 16px;
     border-radius: 8px;
+    cursor: pointer;
 
     a {
         display: flex;
@@ -150,4 +151,22 @@
 .location {
     display: flex;
     align-items: center;
+}
+
+.dropdown-menu {
+    background: #fff;
+    width: 240px;
+    z-index: 15;
+    list-style: none;
+    margin: 0px;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 6px 12px 0px;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    transform: translateX(25%);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: $text-primary;
 }
