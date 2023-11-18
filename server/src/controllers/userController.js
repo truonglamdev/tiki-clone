@@ -31,8 +31,7 @@ const createUser = async (req, res) => {
         });
         await createUserSchema.validate(req.body, { abortEarly: false });
         const response = await createUserService(req.body);
-
-        return res.status(200).json(response);
+        return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
@@ -47,16 +46,13 @@ const loginUser = async (req, res) => {
         await loginUserSchema.validate(req.body, { abortEarly: false });
         const response = await loginUserService(req.body);
 
-        res.cookie('refreshToken', response.refreshToken, {
+        res.cookie('refreshToken', response.message.refreshToken, {
             httpOnly: true,
         });
 
-        return res.status(200).json(response);
+        return res.status(response.statusCode).json(response.message);
     } catch (error) {
-        console.error(error);
-        return res.status(400).json({
-            errors: error.errors,
-        });
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 

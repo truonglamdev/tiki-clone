@@ -8,9 +8,10 @@ import FormLayout from '~/components/Layout/FormLayout';
 import styles from '../Login/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError, registerUser } from '~/redux/actions/authAction';
-import { getToastError, getToastSuccess } from '~/customs/toastMessage/toastMessage';
+import { clearMessage, registerUser } from '~/redux/actions/authAction';
+import { getToastError } from '~/customs/toastMessage/toastMessage';
 import { useEffect } from 'react';
+import Loading from '~/components/Loading';
 const cx = classNames.bind(styles);
 function Register() {
     const navigate = useNavigate();
@@ -32,28 +33,37 @@ function Register() {
     };
 
     useEffect(() => {
-        if (!isSuccess && message) {
-            getToastError(message);
-        } else {
-            getToastSuccess(message);
+        if (isSuccess && message) {
             navigate('/login');
         }
-        dispatch(clearError());
+        if (!isSuccess && message) {
+            getToastError(message);
+        }
+        dispatch(clearMessage());
     }, [isSuccess, message, dispatch, navigate]);
     return (
         <>
-            <FormLayout title="Hello">
-                <div className={cx('form-title')}>Create account</div>
-                <form onSubmit={handleSubmit(onSubmitRegisterForm)}>
-                    <InputField name="name" title="Name" register={register} errors={errors} />
-                    <InputField name="email" title="Email" register={register} errors={errors} />
-                    <InputField name="password" title="Password" register={register} errors={errors} />
-                    <InputField name="confirmPassword" title="Confirm Password" register={register} errors={errors} />
-                    <Button primary type="submit" className={cx('btn-submit')}>
-                        Register
-                    </Button>
-                </form>
-            </FormLayout>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <FormLayout title="Hello">
+                    <div className={cx('form-title')}>Create account</div>
+                    <form onSubmit={handleSubmit(onSubmitRegisterForm)}>
+                        <InputField name="name" title="Name" register={register} errors={errors} />
+                        <InputField name="email" title="Email" register={register} errors={errors} />
+                        <InputField name="password" title="Password" register={register} errors={errors} />
+                        <InputField
+                            name="confirmPassword"
+                            title="Confirm Password"
+                            register={register}
+                            errors={errors}
+                        />
+                        <Button primary type="submit" className={cx('btn-submit')}>
+                            Register
+                        </Button>
+                    </form>
+                </FormLayout>
+            )}
         </>
     );
 }

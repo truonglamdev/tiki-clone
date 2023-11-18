@@ -5,7 +5,7 @@ import {
     RESET_USER_REQUEST,
     RESET_USER_SUCCESS,
     RESET_USER_FAILED,
-    CLEAR_ERROR,
+    CLEAR_MESSAGE,
     LOGOUT_REQUEST,
     LOGOUT_FAILED,
     LOGOUT_SUCCESS,
@@ -15,7 +15,6 @@ import {
 } from '~/constants/authConstant';
 
 const getUserFromLocalStorage = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-
 const initialState = {
     user: getUserFromLocalStorage,
     order: [],
@@ -50,7 +49,6 @@ const userReducer = (state = initialState, action) => {
                 isLoading: false,
                 isSuccess: true,
                 user: null,
-                isAuthenticated: false,
             };
         case LOGOUT_SUCCESS:
             return {
@@ -79,8 +77,9 @@ const userReducer = (state = initialState, action) => {
                 isSuccess: false,
                 user: null,
                 message: action.message,
+                isAuthenticated: false,
             };
-        case CLEAR_ERROR:
+        case CLEAR_MESSAGE:
             return {
                 ...state,
                 message: '',

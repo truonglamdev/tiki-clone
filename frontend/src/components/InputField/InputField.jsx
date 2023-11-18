@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import styles from './InputField.module.scss';
+
 const cx = classNames.bind(styles);
 function InputField({ name, title = '', register, errors }) {
     const [type, setType] = useState('text');

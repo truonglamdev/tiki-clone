@@ -10,14 +10,16 @@ import Coupon from './../models/couponModel.js';
 const createUserService = async (user) => {
     try {
         const { email, password, name } = user;
-        const isUserExist = await User.findOne({ email: email });
-        if (isUserExist) {
-            return { status: 'ERR', message: 'User already exists' };
+        const userExist = await User.findOne({ email: email });
+        if (userExist) {
+            return createMessage(400, 'User already exists');
         }
         //Hash password with bcrypt
         const hashPassword = await bcrypt.hash(password, 10);
         const createNewUser = await User.create({ name, email, password: hashPassword });
-        return createMessage(200, 'User created successfully', { data: createNewUser });
+        const newUser = createNewUser.toObject();
+        delete newUser.password;
+        return createMessage(200, 'User created successfully', { data: newUser });
     } catch (error) {
         return createMessage(500, error.message);
     }
@@ -28,11 +30,11 @@ const loginUserService = async (user) => {
         const { email, password } = user;
         const userExist = await User.findOne({ email: email });
         if (userExist === null) {
-            return { status: 'ERR', message: 'User not found' };
+            return createMessage(404, 'User not found');
         }
         const isPasswordCompare = await bcrypt.compare(password, userExist.password);
         if (!isPasswordCompare) {
-            return { status: 'ERR', message: 'Password does not match' };
+            return createMessage(400, 'Password does not matches');
         }
         const accessToken = await generateAccessToken({
             id: userExist.id,
@@ -44,15 +46,16 @@ const loginUserService = async (user) => {
             isAdmin: userExist.isAdmin,
         });
 
-        return {
-            status: 'OK',
-            message: 'Authentication successful',
-            user: userExist,
+        const newUser = userExist.toObject();
+        delete newUser.password;
+
+        return createMessage(200, 'Authentication successful', {
+            user: newUser,
             accessToken: accessToken,
             refreshToken: refreshToken,
-        };
+        });
     } catch (error) {
-        return error;
+        return createMessage(500, error.message);
     }
 };
 
