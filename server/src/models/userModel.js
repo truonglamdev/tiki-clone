@@ -41,7 +41,6 @@ const userSchema = new Schema(
 
 userSchema.methods.generateResetPasswordToken = () => {
     const resetToken = cryptoJs.lib.WordArray.random(20).toString();
-
     userSchema.resetPasswordToken = resetToken;
     const expireTime = Date.now() + 60 * 15 * 60 * 1000;
     userSchema.resetPasswordExpires = expireTime;

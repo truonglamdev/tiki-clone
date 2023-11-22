@@ -11,15 +11,14 @@ import FormLayout from '~/components/Layout/FormLayout';
 import ToastContainerCustom from '~/customs/toastMessage/ToastContainerCustom';
 import { getToastError } from '~/customs/toastMessage/toastMessage';
 import { clearMessage, loginUser } from '~/redux/actions/authAction';
-import styles from './Login.module.scss';
+import styles from '../Account.module.scss';
+import Loading from '~/components/Loading/Loading';
 const cx = classNames.bind(styles);
 
 function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user, isSuccess, message } = useSelector((state) => {
-        return state.user.state;
-    });
+    const { user, isSuccess, message, isLoading, isAuthenticated } = useSelector((state) => state.user);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().required('Email is required').email('Invalid email'),
@@ -36,38 +35,36 @@ function Login() {
         dispatch(loginUser({ email, password }));
     };
 
-    const handleForgotPassword = async () => {};
-
     useEffect(() => {
-        if (user) {
-            navigate('/');
-        } else {
-            navigate('/login');
-        }
+        navigate(user ? '/' : '/login');
         if (message && !isSuccess) {
             getToastError(message);
-            dispatch(clearMessage());
         }
-    }, [user, isSuccess, navigate, message, dispatch]);
+        dispatch(clearMessage());
+    }, [user, isSuccess, navigate, message, dispatch, isAuthenticated]);
     return (
         <>
-            <FormLayout title="Login with email">
-                <div className={cx('form-title')}>Enter your Tiki account email and password</div>
-                <form onSubmit={handleSubmit(onSubmitLoginForm)}>
-                    <InputField name="email" title="Email" register={register} errors={errors} />
-                    <InputField name="password" title="Password" register={register} errors={errors} />
-                    <Button primary type="submit" className={cx('btn-submit')}>
-                        Login
-                    </Button>
-                </form>
-                <div className={cx('forgot-password')} onClick={handleForgotPassword}>
-                    Forgot Password ?
-                </div>
-                <div className={cx('create-account')} onClick={() => navigate('/register')}>
-                    No account? <span>Create account</span>
-                </div>
-                <ToastContainerCustom />
-            </FormLayout>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <FormLayout title="Login with email">
+                    <div className={cx('form-title')}>Enter your Tiki account email and password</div>
+                    <form onSubmit={handleSubmit(onSubmitLoginForm)}>
+                        <InputField name="email" title="Email" register={register} errors={errors} />
+                        <InputField name="password" title="Password" register={register} errors={errors} />
+                        <Button primary type="submit" className={cx('btn-submit')}>
+                            Login
+                        </Button>
+                    </form>
+                    <div className={cx('forgot-password')} onClick={() => navigate('/forgot-password')}>
+                        Forgot Password ?
+                    </div>
+                    <div className={cx('create-account')} onClick={() => navigate('/register')}>
+                        No account? <span>Create account</span>
+                    </div>
+                    <ToastContainerCustom />
+                </FormLayout>
+            )}
         </>
     );
 }

@@ -4,7 +4,6 @@ import {
     LOGIN_FAILED,
     RESET_USER_REQUEST,
     RESET_USER_SUCCESS,
-    RESET_USER_FAILED,
     CLEAR_MESSAGE,
     LOGOUT_REQUEST,
     LOGOUT_FAILED,
@@ -15,6 +14,7 @@ import {
 } from '~/constants/authConstant';
 
 const getUserFromLocalStorage = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+
 const initialState = {
     user: getUserFromLocalStorage,
     order: [],
@@ -39,8 +39,8 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 isSuccess: true,
                 isLoading: false,
-                user: action.payload,
-                message: action.message,
+                user: action.payload.user,
+                message: action.payload.message,
                 isAuthenticated: true,
             };
         case RESET_USER_SUCCESS:
@@ -49,6 +49,9 @@ const userReducer = (state = initialState, action) => {
                 isLoading: false,
                 isSuccess: true,
                 user: null,
+                message: '',
+                order: [],
+                isAuthenticated: false,
             };
         case LOGOUT_SUCCESS:
             return {
@@ -57,7 +60,7 @@ const userReducer = (state = initialState, action) => {
                 isSuccess: true,
                 user: null,
                 isAuthenticated: false,
-                message: action.message,
+                message: action.payload.message,
             };
 
         case REGISTER_SUCCESS:
@@ -65,19 +68,16 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 isSuccess: true,
-                message: action.message,
+                message: action.payload.message,
             };
         case LOGIN_FAILED:
-        case RESET_USER_FAILED:
         case LOGOUT_FAILED:
         case REGISTER_FAILED:
             return {
                 ...state,
                 isLoading: false,
                 isSuccess: false,
-                user: null,
-                message: action.message,
-                isAuthenticated: false,
+                message: action.payload.message,
             };
         case CLEAR_MESSAGE:
             return {

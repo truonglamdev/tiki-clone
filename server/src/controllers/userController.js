@@ -56,6 +56,22 @@ const loginUser = async (req, res) => {
     }
 };
 
+const refreshToken = async (req, res) => {
+    try {
+        const refreshToken = await req.headers.refreshtoken?.split(' ')[1];
+        if (!refreshToken) {
+            return res.status(400).json({
+                status: 'ERR',
+                message: 'Token is required',
+            });
+        }
+        const response = await refreshTokenJwtService(refreshToken);
+        return res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
+    }
+};
+
 const logoutUser = async (req, res) => {
     try {
         res.clearCookie('accessToken');
@@ -64,22 +80,6 @@ const logoutUser = async (req, res) => {
             status: 'OK',
             message: 'Logout successfully',
         });
-    } catch (error) {
-        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
-    }
-};
-
-const refreshToken = async (req, res) => {
-    try {
-        const refreshToken = await req.headers.refreshtoken?.split(' ')[1];
-        if (!refreshToken) {
-            return res.status(401).json({
-                status: 'ERR',
-                message: 'Token is required',
-            });
-        }
-        const response = await refreshTokenJwtService(refreshToken);
-        return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }

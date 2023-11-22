@@ -4,6 +4,7 @@ import Home from '~/pages/Home';
 import NotFound from '~/pages/NotFound';
 import Order from '~/pages/Order';
 import ProductDetail from '~/pages/ProductDetail';
+import ForgotPassword from '~/pages/Account/ForgotPassword';
 
 export const routes = [
     {
@@ -29,6 +30,11 @@ export const routes = [
     {
         path: '/register',
         page: Register,
+        isShowHeader: false,
+    },
+    {
+        path: '/forgot-password',
+        page: ForgotPassword,
         isShowHeader: false,
     },
     {

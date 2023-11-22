@@ -18,11 +18,9 @@ const refreshTokenService = async () => {
 
 const logoutService = async () => {
     const res = await request.post('auth/logout');
-    if (res) {
-        cookies.remove('accessToken');
-        cookies.remove('refreshToken');
-        localStorage.removeItem('user');
-    }
+    cookies.remove('accessToken');
+    cookies.remove('refreshToken');
+    localStorage.removeItem('user');
     return res;
 };
 

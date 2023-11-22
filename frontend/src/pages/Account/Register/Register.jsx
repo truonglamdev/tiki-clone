@@ -1,17 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames/bind';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import Button from '~/components/Button';
 import InputField from '~/components/InputField/InputField';
 import FormLayout from '~/components/Layout/FormLayout';
-import styles from '../Login/Login.module.scss';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearMessage, registerUser } from '~/redux/actions/authAction';
-import { getToastError } from '~/customs/toastMessage/toastMessage';
-import { useEffect } from 'react';
 import Loading from '~/components/Loading';
+import { getToastError } from '~/customs/toastMessage/toastMessage';
+import { clearMessage, registerUser } from '~/redux/actions/authAction';
+import styles from '../Account.module.scss';
+
 const cx = classNames.bind(styles);
 function Register() {
     const navigate = useNavigate();
@@ -33,11 +34,12 @@ function Register() {
     };
 
     useEffect(() => {
-        if (isSuccess && message) {
+        if (isSuccess) {
             navigate('/login');
-        }
-        if (!isSuccess && message) {
-            getToastError(message);
+        } else {
+            if (message) {
+                getToastError(message);
+            }
         }
         dispatch(clearMessage());
     }, [isSuccess, message, dispatch, navigate]);

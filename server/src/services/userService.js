@@ -19,7 +19,7 @@ const createUserService = async (user) => {
         const createNewUser = await User.create({ name, email, password: hashPassword });
         const newUser = createNewUser.toObject();
         delete newUser.password;
-        return createMessage(200, 'User created successfully', { data: newUser });
+        return createMessage(200, 'User created successfully', { user: newUser });
     } catch (error) {
         return createMessage(500, error.message);
     }

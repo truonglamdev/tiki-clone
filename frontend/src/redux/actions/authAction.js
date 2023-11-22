@@ -22,10 +22,21 @@ const loginUser = (data) => async (dispatch) => {
             localStorage.setItem('user', JSON.stringify(res.user));
             cookies.set('accessToken', res?.accessToken);
             cookies.set('refreshToken', res?.refreshToken);
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: {
+                    user: res.user,
+                    message: res.message,
+                },
+            });
         }
-        dispatch({ type: LOGIN_SUCCESS, payload: res.user, message: res.message });
     } catch (error) {
-        dispatch({ type: LOGIN_FAILED, message: error.response.data.message });
+        dispatch({
+            type: LOGIN_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
     }
 };
 
@@ -41,9 +52,19 @@ const logoutUser = () => async (dispatch) => {
     dispatch({ type: LOGOUT_REQUEST });
     try {
         const res = await logoutService();
-        dispatch({ type: LOGOUT_SUCCESS, message: res.message });
+        dispatch({
+            type: LOGOUT_SUCCESS,
+            payload: {
+                message: res.message,
+            },
+        });
     } catch (error) {
-        dispatch({ type: LOGOUT_FAILED, message: error.response.data.message });
+        dispatch({
+            type: LOGOUT_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
     }
 };
 
@@ -51,9 +72,14 @@ const registerUser = (data) => async (dispatch) => {
     dispatch({ type: REGISTER_REQUEST });
     try {
         const res = await registerUserService(data);
-        dispatch({ type: REGISTER_SUCCESS, payload: res.data, message: res.message });
+        dispatch({ type: REGISTER_SUCCESS, payload: { user: res.user, message: res.message } });
     } catch (error) {
-        dispatch({ type: LOGOUT_FAILED, message: error.response.data.message });
+        dispatch({
+            type: LOGOUT_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
     }
 };
 

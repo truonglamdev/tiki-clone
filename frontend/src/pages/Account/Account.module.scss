@@ -1,0 +1,26 @@
+@import '../../components/Sass/mixin';
+.form-title {
+    margin: 10px 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 13px 0px;
+    margin: 20px 0px 10px;
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.forgot-password,
+.create-account {
+    font-size: 1.3rem;
+    margin: 20px 0px 0px;
+    display: inline-block;
+}
+.forgot-password,
+.create-account span {
+    color: #0d5cb6;
+    cursor: pointer;
+}

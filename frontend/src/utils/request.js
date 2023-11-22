@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import Cookies from 'universal-cookie';
 import { refreshTokenService } from '~/services/authService';
 
@@ -14,6 +13,7 @@ instance.interceptors.request.use(
     function (config) {
         const accessToken = cookies.get('accessToken');
         const refreshToken = cookies.get('refreshToken');
+
         if (accessToken && refreshToken) {
             config.headers = {
                 Authorization: `Bearer ${accessToken}`,
