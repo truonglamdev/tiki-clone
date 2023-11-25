@@ -8,17 +8,17 @@ import * as Yup from 'yup';
 import Button from '~/components/Button/Button';
 import InputField from '~/components/InputField/InputField';
 import FormLayout from '~/components/Layout/FormLayout';
+import Loading from '~/components/Loading/Loading';
 import ToastContainerCustom from '~/customs/toastMessage/ToastContainerCustom';
 import { getToastError } from '~/customs/toastMessage/toastMessage';
 import { clearMessage, loginUser } from '~/redux/actions/authAction';
 import styles from '../Account.module.scss';
-import Loading from '~/components/Loading/Loading';
 const cx = classNames.bind(styles);
 
 function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user, isSuccess, message, isLoading, isAuthenticated } = useSelector((state) => state.user);
+    const { user, isSuccess, message, isLoading } = useSelector((state) => state.user);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().required('Email is required').email('Invalid email'),
@@ -37,11 +37,12 @@ function Login() {
 
     useEffect(() => {
         navigate(user ? '/' : '/login');
-        if (message && !isSuccess) {
+        if (message && !isSuccess ) {
             getToastError(message);
         }
         dispatch(clearMessage());
-    }, [user, isSuccess, navigate, message, dispatch, isAuthenticated]);
+    }, [user, isSuccess, navigate, message, dispatch]);
+
     return (
         <>
             {isLoading ? (

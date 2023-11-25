@@ -1,4 +1,5 @@
 import nodeMailer from 'nodemailer';
+import createMessage from './createMessage.js';
 
 const sendEmailMessage = async (config) => {
     try {
@@ -18,13 +19,9 @@ const sendEmailMessage = async (config) => {
             text: config.message,
         };
         await transporter.sendMail(mailOptions);
-        return {
-            status: 'OK',
-            message: `Email sent to ${config.email} successfully`,
-        };
+        return createMessage(200, `Email sent to ${config.email} successfully`);
     } catch (error) {
-        console.log('Error sending email', error);
-        return error;
+        return createMessage(500, `Server error ${error.message}`);
     }
 };
 

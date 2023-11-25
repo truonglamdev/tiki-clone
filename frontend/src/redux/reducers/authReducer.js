@@ -11,6 +11,12 @@ import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
     REGISTER_FAILED,
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
+    FORGOT_PASSWORD_FAILED,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_FAILED,
+    RESET_PASSWORD_SUCCESS,
 } from '~/constants/authConstant';
 
 const getUserFromLocalStorage = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
@@ -30,9 +36,14 @@ const userReducer = (state = initialState, action) => {
         case RESET_USER_REQUEST:
         case LOGOUT_REQUEST:
         case REGISTER_REQUEST:
+        case FORGOT_PASSWORD_REQUEST:
+        case RESET_PASSWORD_REQUEST:
             return {
                 ...state,
                 isLoading: true,
+                isSuccess: false,
+                isAuthenticated: false,
+                message: '',
             };
         case LOGIN_SUCCESS:
             return {
@@ -69,10 +80,21 @@ const userReducer = (state = initialState, action) => {
                 isLoading: false,
                 isSuccess: true,
                 message: action.payload.message,
+                user: action.payload.user,
+            };
+        case FORGOT_PASSWORD_SUCCESS:
+        case RESET_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                isSuccess: true,
+                message: action.payload.message,
             };
         case LOGIN_FAILED:
         case LOGOUT_FAILED:
         case REGISTER_FAILED:
+        case FORGOT_PASSWORD_FAILED:
+        case RESET_PASSWORD_FAILED:
             return {
                 ...state,
                 isLoading: false,

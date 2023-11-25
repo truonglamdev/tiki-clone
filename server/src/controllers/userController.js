@@ -141,7 +141,6 @@ const getAllUsers = async (req, res) => {
         const response = await getAllUsersService();
         res.status(200).json(response);
     } catch (error) {
-        console.error('Error in getAllUser:', error);
         return res.status(500).json({
             message: 'Internal server error',
         });
@@ -154,13 +153,10 @@ const forgotPassword = async (req, res) => {
             email: yup.string().email('Invalid email').required('Email is required'),
         });
         await emailSchema.validate(req.body, { abortEarly: false });
-        const response = await forgotPasswordService(req.body);
-        res.status(200).json(response);
+        const response = await forgotPasswordService(req);
+        return res.status(response.statusCode).json(response.message);
     } catch (error) {
-        console.error('Error in forgotPassword:', error);
-        return res.status(400).json({
-            errors: error.errors,
-        });
+        return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
 
@@ -174,19 +170,13 @@ const resetPassword = async (req, res) => {
                 .oneOf([yup.ref('password'), null], 'Password must match')
                 .required('Confirm password is required'),
         });
-        if (!token) {
-            res.status(400).json({
-                status: 'ERR',
-                message: 'Invalid token',
-            });
-        }
         await createUserSchema.validate(req.body, { abortEarly: false });
         const response = await resetPasswordService(token, req.body);
-        res.status(200).json(response);
+        res.status(response.statusCode).json(response.message);
     } catch (error) {
-        console.error('Error in resetPassword:', error);
-        return res.status(400).json({
-            errors: error.errors,
+        return res.status(500).json({
+            status: 'ERR',
+            message: `Internal Server Error : ${error.message}`,
         });
     }
 };

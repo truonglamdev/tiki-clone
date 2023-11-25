@@ -29,4 +29,21 @@ const registerUserService = async (data) => {
     return res;
 };
 
-export { loginService, refreshTokenService, logoutService, registerUserService };
+const forgotPasswordService = async (data) => {
+    const res = await request.post('password/forgot', data);
+    return res;
+};
+
+const resetPasswordService = async (token, data) => {
+    const res = await request.put(`password/reset/${token}`, data);
+    return res;
+};
+
+export {
+    loginService,
+    refreshTokenService,
+    logoutService,
+    registerUserService,
+    forgotPasswordService,
+    resetPasswordService,
+};

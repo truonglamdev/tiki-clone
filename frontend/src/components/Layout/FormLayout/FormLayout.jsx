@@ -3,19 +3,22 @@ import classNames from 'classnames/bind';
 import styles from './FormLayout.module.scss';
 import Image from '~/components/Image';
 import loginLogo from '~/images/loginLogo.png';
-import iconImages from '~/images/iconImages';
-
+import { IoIosCloseCircleOutline } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 function FormLayout({ children, title }) {
+    const navigate = useNavigate();
     const onBackClick = () => {
-        window.history.back();
+        navigate('/');
     };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('form-container')}>
                 <div className={cx('content-left')}>
-                    <div className={cx('back-btn')} onClick={onBackClick}>
-                        <Image src={iconImages.prev} alt="prevIcon" className={cx('back-icon')} />
+                    <div className={cx('button')} onClick={onBackClick}>
+                        <span className={cx('close-btn')} onClick={onBackClick}>
+                            <IoIosCloseCircleOutline />
+                        </span>
                     </div>
                     <div className={cx('title')}>{title}</div>
                     {children}

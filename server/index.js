@@ -13,8 +13,8 @@ import brandRoute from './src/routes/brandRoute.js';
 import blogCategoryRoute from './src/routes/blogCategoryRoute.js';
 import blogRoute from './src/routes/blogRoute.js';
 import authRoute from './src/routes/authRoute.js';
-import passportConfig from './src/config/passportConfig.js';
-import passport from 'passport';
+// import passportConfig from './src/config/passportConfig.js';
+// import passport from 'passport';
 import expressSession from 'express-session';
 
 const app = express();
@@ -25,15 +25,15 @@ app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: true }));
 connectDb();
 const port = process.env.PORT || 3001;
-passportConfig(passport);
+// passportConfig(passport);
 
-app.use(
-    expressSession({
-        secret: 'jayantpatilapp',
-        resave: true,
-        saveUninitialized: true,
-    }),
-);
+// app.use(
+//     expressSession({
+//         secret: 'jayantpatilapp',
+//         resave: true,
+//         saveUninitialized: true,
+//     }),
+// );
 
 
 app.use('/api/v1', userRoute);

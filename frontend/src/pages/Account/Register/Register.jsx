@@ -17,7 +17,7 @@ const cx = classNames.bind(styles);
 function Register() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { isLoading, isSuccess, message } = useSelector((state) => state.user);
+    const { isLoading, isSuccess, message, user } = useSelector((state) => state.user);
     const validationSchema = Yup.object().shape({
         email: Yup.string().required('Email is required').email('Invalid email'),
         password: Yup.string().required('Password is required').min(6).max(32),
@@ -34,7 +34,7 @@ function Register() {
     };
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && user) {
             navigate('/login');
         } else {
             if (message) {
@@ -42,7 +42,8 @@ function Register() {
             }
         }
         dispatch(clearMessage());
-    }, [isSuccess, message, dispatch, navigate]);
+    }, [isSuccess, message, dispatch, navigate, user]);
+    
     return (
         <>
             {isLoading ? (

@@ -129,29 +129,31 @@ const getAllUsersService = async () => {
     }
 };
 
-const forgotPasswordService = async (payload) => {
+const forgotPasswordService = async (req) => {
     try {
+        const payload = req.body;
+        const host = req.headers.host;
         const user = await User.findOne({ email: payload.email });
         if (!user) {
-            return {
-                status: 'ERR',
-                message: 'User not found',
-            };
+            return createMessage(404, 'User not found');
         }
 
-        user.generateResetPasswordToken();
-        await user.save({ validateBeforeSave: false });
-        const resetPasswordUrl = `http://localhost:3001/api/v1/password/reset/${user.resetPasswordToken}`;
-        const message = `Your password reset token is: ${resetPasswordUrl}. If you have not requested this email, please ignore it.`;
-        const response = await sendEmailMessage({ email: payload.email, subject: `Tiki Password Recovery`, message });
-        return response;
+        await user.generateResetPasswordToken();
+        // await user.save({ validateBeforeSave: false });
+        await user.save();
+        if (!user.resetPasswordToken) {
+            return createMessage(400, 'Send email is failed');
+        }
+        const resetPasswordUrl = `${process.env.URL_ENDPOINT}/password/reset/${user.resetPasswordToken}`;
+        const message = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='${resetPasswordUrl}'>Click Here</>`;
+        return await sendEmailMessage({ email: payload.email, subject: `Tiki Password Recovery`, message });
     } catch (error) {
         const user = await User.findOne({ email: payload.email });
         user.resetPasswordToken = undefined;
         user.resetPasswordExpire = undefined;
         // Save user changes
-        await user.save({ validateBeforeSave: false });
-        return error;
+        await user.save();
+        return createMessage(500, error.message);
     }
 };
 
@@ -162,20 +164,16 @@ const resetPasswordService = async (token, user) => {
             resetPasswordExpires: { $gt: Date.now() },
         });
         if (!userExists) {
-            return { status: 'ERR', message: 'Your token reset password has expired?' };
+            return createMessage(404, 'Your token reset password has expired?');
         }
-
         const hashPassword = await bcrypt.hash(user.password, 10);
         userExists.password = hashPassword;
         userExists.resetPasswordToken = undefined;
         userExists.resetPasswordExpires = undefined;
         await userExists.save();
-        return {
-            status: 'OK',
-            message: 'Reset Password successfully',
-        };
+        return createMessage(200, 'Reset Password Successful');
     } catch (error) {
-        return error;
+        return createMessage(500, error.message);
     }
 };
 

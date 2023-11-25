@@ -39,14 +39,13 @@ const userSchema = new Schema(
     { timestamps: true },
 );
 
-userSchema.methods.generateResetPasswordToken = () => {
+userSchema.methods.generateResetPasswordToken = async function () {
     const resetToken = cryptoJs.lib.WordArray.random(20).toString();
-    userSchema.resetPasswordToken = resetToken;
-    const expireTime = Date.now() + 60 * 15 * 60 * 1000;
-    userSchema.resetPasswordExpires = expireTime;
+    this.resetPasswordToken = resetToken;
+    const expireTime = Date.now() + 30 * 60 * 1000;
+    this.resetPasswordExpires = expireTime;
     return resetToken;
 };
-
 const User = mongoose.model('User', userSchema);
 
 export default User;

@@ -1,6 +1,9 @@
 import Cookies from 'universal-cookie';
 import {
     CLEAR_MESSAGE,
+    FORGOT_PASSWORD_FAILED,
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
     LOGIN_FAILED,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -9,10 +12,19 @@ import {
     LOGOUT_SUCCESS,
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
+    RESET_PASSWORD_FAILED,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
     RESET_USER_REQUEST,
     RESET_USER_SUCCESS,
 } from '~/constants/authConstant';
-import { loginService, logoutService, registerUserService } from '~/services/authService';
+import {
+    forgotPasswordService,
+    loginService,
+    logoutService,
+    registerUserService,
+    resetPasswordService,
+} from '~/services/authService';
 const cookies = new Cookies();
 const loginUser = (data) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
@@ -83,7 +95,37 @@ const registerUser = (data) => async (dispatch) => {
     }
 };
 
+const forgotPassword = (data) => async (dispatch) => {
+    dispatch({ type: FORGOT_PASSWORD_REQUEST });
+    try {
+        const res = await forgotPasswordService(data);
+        dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: { message: res.message } });
+    } catch (error) {
+        dispatch({
+            type: FORGOT_PASSWORD_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
+    }
+};
+
+const resetPassword = (token, data) => async (dispatch) => {
+    dispatch({ type: RESET_PASSWORD_REQUEST });
+    try {
+        const res = await resetPasswordService(token, data);
+        dispatch({ type: RESET_PASSWORD_SUCCESS, payload: { message: res.message } });
+    } catch (error) {
+        dispatch({
+            type: RESET_PASSWORD_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
+    }
+};
+
 const clearMessage = () => (dispatch) => {
     dispatch({ type: CLEAR_MESSAGE });
 };
-export { loginUser, registerUser, resetUser, clearMessage, logoutUser };
+export { loginUser, registerUser, resetUser, clearMessage, logoutUser, forgotPassword, resetPassword };

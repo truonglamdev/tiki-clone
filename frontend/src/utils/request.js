@@ -65,7 +65,7 @@ export const post = async (path, data, config = {}) => {
 };
 
 export const put = async (path, data) => {
-    const res = await instance.put(path, data);
+    const res = await instance.put(path, data );
     return res.data;
 };
 
