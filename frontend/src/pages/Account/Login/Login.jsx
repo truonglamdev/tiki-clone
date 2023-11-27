@@ -18,7 +18,7 @@ const cx = classNames.bind(styles);
 function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user, isSuccess, message, isLoading } = useSelector((state) => state.user);
+    const { isSuccess, message, isLoading, user } = useSelector((state) => state.auth);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().required('Email is required').email('Invalid email'),
@@ -36,11 +36,13 @@ function Login() {
     };
 
     useEffect(() => {
-        navigate(user ? '/' : '/login');
-        if (message && !isSuccess ) {
-            getToastError(message);
+        if (user) {
+            navigate('/');
         }
-        dispatch(clearMessage());
+        if (message && !isSuccess) {
+            getToastError(message);
+            dispatch(clearMessage());
+        }
     }, [user, isSuccess, navigate, message, dispatch]);
 
     return (

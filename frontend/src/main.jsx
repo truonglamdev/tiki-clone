@@ -10,11 +10,11 @@ const appElement = document.getElementById('root');
 Modal.setAppElement(appElement);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <Provider store={store}>
+    <Provider store={store}>
+        <React.StrictMode>
             <GlobalStyles>
                 <App />
             </GlobalStyles>
-        </Provider>
-    </React.StrictMode>,
+        </React.StrictMode>
+    </Provider>,
 );

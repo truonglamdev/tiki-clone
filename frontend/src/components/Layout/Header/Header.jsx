@@ -17,7 +17,7 @@ import logo from '~/images/logo.png';
 import { clearMessage, logoutUser } from '~/redux/actions/authAction';
 import Search from '../Search';
 import styles from './Header.module.scss';
-import SidebarMobile from '~/components/Sidebar/SidebarMobile';
+import SidebarMobile from '~/components/Layout/SidebarMobile';
 import Loading from '~/components/Loading/Loading';
 
 const cx = classNames.bind(styles);
@@ -27,7 +27,7 @@ export default function Header() {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user, isAuthenticated, message, isSuccess, isLoading } = useSelector((state) => state.user);
+    const { user, message, isSuccess, isLoading } = useSelector((state) => state.auth);
 
     const categories = [
         { category: 'trái cây', path: '/' },
@@ -78,7 +78,7 @@ export default function Header() {
             getToastSuccess(message);
             dispatch(clearMessage());
         }
-    }, [isSuccess, dispatch, message]);
+    }, [isSuccess, dispatch, message, user]);
 
     return (
         <>

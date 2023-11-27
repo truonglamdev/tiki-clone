@@ -6,6 +6,7 @@ import Order from '~/pages/Order';
 import ProductDetail from '~/pages/ProductDetail';
 import ForgotPassword from '~/pages/Account/ForgotPassword';
 import ResetPassword from '~/pages/Account/ResetPassword';
+import Profile from '~/pages/Customer/Profile';
 
 export const routes = [
     {
@@ -49,6 +50,12 @@ export const routes = [
         page: ResetPassword,
         isShowHeader: false,
         isPrivate: false,
+    },
+    {
+        path: '/customer/profile',
+        page: Profile,
+        isShowHeader: true,
+        isPrivate: true,
     },
     {
         path: '*',

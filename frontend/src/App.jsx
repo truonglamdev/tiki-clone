@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -12,14 +12,15 @@ const cookies = new Cookies();
 
 function App() {
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.user);
+    const { user } = useSelector((state) => state.auth);
     const refreshToken = cookies.get('refreshToken');
-    if (refreshToken) {
-        if (checkExpRefreshToken) {
-            dispatch(resetUser());
-            getToastError('Your version has expired, please log in again');
-        }
-    }
+    // if (refreshToken) {
+    //     if (checkExpRefreshToken) {
+    //         dispatch(resetUser());
+    //         getToastError('Your version has expired, please log in again');
+    //     }
+    // }
+
     return (
         <div>
             <Router>
@@ -28,15 +29,17 @@ function App() {
                         const Page = route.page;
                         const Layout = route.isShowHeader ? DefaultLayout : Fragment;
                         if (user && route.isPrivate) {
-                            <Route
-                                key={route.path}
-                                path={route.path}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />;
+                            return (
+                                <Route
+                                    key={route.path}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            );
                         } else if (!route.isPrivate) {
                             return (
                                 <Route

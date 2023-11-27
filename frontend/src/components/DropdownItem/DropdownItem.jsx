@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import styles from './DropdownItem.module.scss';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import styles from './DropdownItem.module.scss';
 
 const cx = classNames.bind(styles);
 function DropdownItem({ children, iconLeft, iconRight, className, onClick, to, href, ...passProps }) {
