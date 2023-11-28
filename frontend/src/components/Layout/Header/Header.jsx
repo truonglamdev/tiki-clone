@@ -6,7 +6,7 @@ import { FcPrevious } from 'react-icons/fc';
 import { FiShoppingCart } from 'react-icons/fi';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import DropdownItem from '~/components/DropdownItem';
 import { Wrapper as WrapperPopper } from '~/components/Popper';
 import SearchProductItem from '~/components/SearchProductItem';
@@ -17,7 +17,7 @@ import logo from '~/images/logo.png';
 import { clearMessage, logoutUser } from '~/redux/actions/authAction';
 import Search from '../Search';
 import styles from './Header.module.scss';
-import SidebarMobile from '~/components/Layout/SidebarMobile';
+import SidebarMobile from '~/components/Layout/SideBar/SidebarMobile';
 import Loading from '~/components/Loading/Loading';
 
 const cx = classNames.bind(styles);
@@ -77,8 +77,9 @@ export default function Header() {
         if (isSuccess && message) {
             getToastSuccess(message);
             dispatch(clearMessage());
+            navigate('/');
         }
-    }, [isSuccess, dispatch, message, user]);
+    }, [isSuccess, dispatch, message, user, navigate]);
 
     return (
         <>
@@ -97,23 +98,26 @@ export default function Header() {
                         </div>
                         <div className={cx('menu')}>
                             <ul className={cx('menu-list')}>
-                                <li className={cx('menu-item')}>
-                                    <Link to="/">
-                                        <img src={iconImages.home} className={cx('icon')} alt="home" />
-                                        <span>Home</span>
-                                    </Link>
-                                </li>
-                                <li className={cx('menu-item')}>
-                                    <Link to="/">
-                                        <img src={iconImages.astra} className={cx('icon')} alt="astra" />
-                                        <span>Astra</span>
-                                    </Link>
-                                </li>
+                                <NavLink
+                                    to="/"
+                                    style={({ isActive, isPending }) => {
+                                        return {
+                                            color: isPending ? 'red' : '#0a68ff',
+                                            backgroundColor: isActive ? 'rgb(0 96 255 / 12%)' : '#fff',
+                                        };
+                                    }}
+                                    className={cx('menu-item')}
+                                >
+                                    <img src={iconImages.home} className={cx('icon')} alt="home" />
+                                    <span>Home</span>
+                                </NavLink>
                                 <Tippy
                                     render={(attrs) => (
                                         <div className={cx('dropdown-menu')} tabIndex="-1" {...attrs}>
                                             <WrapperPopper>
-                                                <DropdownItem>My Account</DropdownItem>
+                                                <DropdownItem onClick={() => navigate('/customer/profile')}>
+                                                    My Account
+                                                </DropdownItem>
                                                 <DropdownItem>My Order</DropdownItem>
                                                 <DropdownItem>Support Center</DropdownItem>
                                                 <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
@@ -124,12 +128,12 @@ export default function Header() {
                                     visible={isShowMenu}
                                     onClickOutside={() => setIsShowMenu(false)}
                                 >
-                                    <li className={cx('menu-item')} onClick={handleClickAccountBtn}>
+                                    <div className={cx('menu-item')} onClick={handleClickAccountBtn}>
                                         <a>
                                             <img src={iconImages.account} className={cx('icon')} alt="account" />
                                             <span>Account</span>
                                         </a>
-                                    </li>
+                                    </div>
                                 </Tippy>
                             </ul>
                         </div>

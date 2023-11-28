@@ -40,7 +40,7 @@ function App() {
                                     }
                                 />
                             );
-                        } else if (!route.isPrivate) {
+                        }  else if (!route.isPrivate) {
                             return (
                                 <Route
                                     key={route.path}

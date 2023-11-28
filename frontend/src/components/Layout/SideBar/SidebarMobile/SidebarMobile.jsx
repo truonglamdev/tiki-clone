@@ -7,7 +7,7 @@ import { MdHome } from 'react-icons/md';
 import DropdownItem from '~/components/DropdownItem';
 import Image from '~/components/Image';
 import styles from './SidebarMobile.module.scss';
-import './SidebarMobile.scss';
+import './CustomSidebar.scss';
 
 const cx = classNames.bind(styles);
 export default function SidebarMobile() {

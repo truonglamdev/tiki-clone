@@ -37,7 +37,7 @@ a {
 
 .container-header {
     margin: 0 auto;
-    padding: 24px 0;
+    padding: 8px 24px ;
     @include respond-to(desktop) {
         max-width: 1440px;
     }

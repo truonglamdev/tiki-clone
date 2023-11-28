@@ -10,9 +10,6 @@ const Image = forwardRef(({ src = noImage, className, fallback: customFallback =
     const handleError = () => {
         setFallbackSrc(customFallback);
     };
-
-   
-
     return (
         <img
             ref={ref}

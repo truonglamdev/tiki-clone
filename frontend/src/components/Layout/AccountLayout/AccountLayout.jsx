@@ -1,8 +1,8 @@
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import styles from './AccountLayout.module.scss';
-import SidebarUser from '../SidebarAccount/SidebarUser';
-import SidebarAdmin from '../SidebarAccount/SidebarAdmin';
+import SidebarUser from '../SideBar/SidebarAccount/SidebarUser';
+import SidebarAdmin from '../SideBar/SidebarAccount/SidebarAdmin';
 
 const cx = classNames.bind(styles);
 function AccountLayout({ children, isAdmin = false }) {

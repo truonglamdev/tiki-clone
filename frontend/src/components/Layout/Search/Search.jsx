@@ -7,12 +7,15 @@ import SearchProductItem from '~/components/SearchProductItem';
 import SuggestItem from '~/components/SuggestItem';
 import iconImages from '~/images/iconImages';
 import styles from './Search.module.scss';
+import useDebounce from '~/components/Hooks/useDebounce';
+import * as request from '~/utils/request';
 
 const cx = classNames.bind(styles);
 function Search({ onShowModal }) {
     const [isShowResults, setIsShowResults] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
+    const [searchValue, setSearchValue] = useState('');
+    const debounceValue = useDebounce(searchValue);
     const handleClickSearchInput = () => {
         if (windowWidth <= 1023) {
             onShowModal();
@@ -25,9 +28,21 @@ function Search({ onShowModal }) {
         setWindowWidth(window.innerWidth);
     };
 
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        console.log('check submit');
+    };
+    useEffect(() => {
+        console.log('check debounce: ', debounceValue);
+        const fetchData = async () => {
+            const res = await request.get(`search?q=${debounceValue}`);
+            console.log(res.data);
+        };
+
+        fetchData();
+    }, [debounceValue]);
     useEffect(() => {
         window.addEventListener('resize', handleResize);
-
         return () => {
             window.removeEventListener('resize', handleResize);
         };
@@ -60,16 +75,19 @@ function Search({ onShowModal }) {
                 visible={isShowResults}
                 onClickOutside={() => setIsShowResults(false)}
             >
-                <div className={cx('search')}>
+                <form className={cx('search')} onSubmit={handleSearchSubmit}>
                     <img src={iconImages.search} className={cx('search-icon')} />
                     <input
                         className={cx('search-input')}
                         placeholder="Everyday low prices, no need to hunt for sales"
+                        onChange={(e) => setSearchValue(e.target.value)}
                         onClick={handleClickSearchInput}
                         // onBlur={() => setIsShowResults(false)}
                     />
-                    <button className={cx('search-btn')}>Search</button>
-                </div>
+                    <button type="submit" className={cx('search-btn')}>
+                        Search
+                    </button>
+                </form>
             </Tippy>
         </div>
     );
