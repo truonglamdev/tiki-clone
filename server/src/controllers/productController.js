@@ -107,7 +107,8 @@ const getAllProduct = async (req, res) => {
 const searchProduct = async (req, res) => {
     try {
         const keyword = req.query.q;
-        const response = await searchProductService(keyword);
+        const limit = req.query.limit || 10;
+        const response = await searchProductService(keyword, limit);
         return res.status(response.statusCode).json(response.message);
     } catch (error) {
         return res.status(500).json({

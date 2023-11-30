@@ -75,23 +75,42 @@ const deleteManyProductService = async (ids) => {
     }
 };
 
-const searchProductService = async (keyword) => {
+const searchProductService = async (keyword, limit) => {
     try {
-        const limitNumber = 10;
         const searchCondition = {
-            $or: [{ name: { $regex: keyword, $options: 'i' } }, { description: { $regex: keyword, $options: 'i' } }],
+            $or: [{ name: { $regex: keyword, $options: 'i' } }],
         };
 
-        const products = await Product.find(searchCondition).limit(limitNumber);
+        // { description: { $regex: keyword, $options: 'i' } }
+
+        const products = await Product.find(searchCondition).limit(limit);
         if (products.length > 0) {
             return createMessage(200, 'Success', { data: products });
         } else {
-            return createMessage(404, 'Not Found', { data: [] });
+            return createMessage(200, 'Not Found', { data: [] });
         }
     } catch (error) {
         return createMessage(500, error.message);
     }
 };
+
+// const searchSuggestionProductService = async (keyword) => {
+//     try {
+//         const limitNumber = 10;
+//         const searchCondition = {
+//             $or: [{ name: { $regex: keyword, $options: 'i' } }, { description: { $regex: keyword, $options: 'i' } }],
+//         };
+
+//         const products = await Product.find(searchCondition).limit(limitNumber);
+//         if (products.length > 0) {
+//             return createMessage(200, 'Success', { data: products });
+//         } else {
+//             return createMessage(404, 'Not Found', { data: [] });
+//         }
+//     } catch (error) {
+//         return createMessage(500, error.message);
+//     }
+// };
 
 const getAllProductService = async (req) => {
     try {

@@ -7,6 +7,7 @@ import ProductDetail from '~/pages/ProductDetail';
 import ForgotPassword from '~/pages/Account/ForgotPassword';
 import ResetPassword from '~/pages/Account/ResetPassword';
 import Profile from '~/pages/Customer/Profile';
+import SearchResult from '~/pages/SearchResult';
 
 export const routes = [
     {
@@ -56,6 +57,12 @@ export const routes = [
         page: Profile,
         isShowHeader: true,
         isPrivate: true,
+    },
+    {
+        path: '/search/',
+        page: SearchResult,
+        isShowHeader: true,
+        isPrivate: false,
     },
     {
         path: '*',

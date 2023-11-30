@@ -1,18 +1,21 @@
 import classNames from 'classnames/bind';
-import styles from './SuggestItem.module.scss';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import iconImages from '~/images/iconImages';
-
+import styles from './SuggestItem.module.scss';
 const cx = classNames.bind(styles);
-function SuggestItem() {
+
+function SuggestItem({ data }) {
     return (
-        <a
-            className={cx('wrapper')}
-            href="/search?q=t%E1%BA%BFt%20%E1%BB%9F%20l%C3%A0ng%20%C4%91%E1%BB%8Ba%20ng%E1%BB%A5c"
-        >
+        <Link className={cx('wrapper')} to={`/search?q=${data.name}`}>
             <img src={iconImages.search} className={cx('search-icon')} />
-            <span className={cx('title')}>Iphone 13 promax</span>
-        </a>
+            <span className={cx('title')}>{data.name}</span>
+        </Link>
     );
 }
+
+SuggestItem.propTypes = {
+    data: PropTypes.object,
+};
 
 export default SuggestItem;

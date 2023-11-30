@@ -180,18 +180,18 @@ export default function Header() {
                                     </div>
                                 </div>
                                 <div className={cx('history-result')}>
+                                    {/* <SuggestItem />
                                     <SuggestItem />
                                     <SuggestItem />
-                                    <SuggestItem />
-                                    <SuggestItem />
+                                    <SuggestItem /> */}
                                 </div>
                                 <div className={cx('product-search')}>
+                                    {/* <SearchProductItem />
                                     <SearchProductItem />
                                     <SearchProductItem />
                                     <SearchProductItem />
                                     <SearchProductItem />
-                                    <SearchProductItem />
-                                    <SearchProductItem />
+                                    <SearchProductItem /> */}
                                 </div>
                             </main>
                         </Modal>
