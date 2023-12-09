@@ -15,6 +15,7 @@ const userSchema = new Schema(
             required: [true, 'Please, enter your email!'],
             unique: true,
         },
+
         password: {
             type: String,
             required: [true, 'Please, enter your password!'],
@@ -28,9 +29,19 @@ const userSchema = new Schema(
             type: String,
         },
         wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
-        city: { type: String },
         phone: { type: String },
+        country: { type: String },
         avatar: {
+            public_id: String,
+            url: String,
+        },
+        nickname: {
+            type: String,
+        },
+        birthday: {
+            type: String,
+        },
+        gender: {
             type: String,
         },
         resetPasswordToken: { type: String },

@@ -5,15 +5,15 @@ import Cookies from 'universal-cookie';
 import DefaultLayout from './components/Layout/DefaultLayout';
 import ToastContainerCustom from './customs/toastMessage/ToastContainerCustom';
 import { getToastError } from './customs/toastMessage/toastMessage';
-import { resetUser } from './redux/actions/authAction';
+import { getDetailsUser, loginUser, resetUser } from './redux/actions/authAction';
 import { routes } from './routes';
-import checkExpRefreshToken from './utils/checkExpRefreshToken';
+import { decodeJwtFunc, checkExpRefreshToken } from './utils/decodedJwt';
+import Loading from './components/Loading/Loading';
 const cookies = new Cookies();
 
 function App() {
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.auth);
-    const refreshToken = cookies.get('refreshToken');
+    const { user, isLoading } = useSelector((state) => state.auth);
     // if (refreshToken) {
     //     if (checkExpRefreshToken) {
     //         dispatch(resetUser());
@@ -21,43 +21,63 @@ function App() {
     //     }
     // }
 
+    useEffect(() => {
+        const accessToken = cookies.get('accessToken');
+        const refreshToken = cookies.get('refreshToken');
+        if (accessToken) {
+            const { id } = decodeJwtFunc(accessToken);
+            dispatch(getDetailsUser(id));
+        }
+        if (refreshToken) {
+            if (checkExpRefreshToken) {
+                dispatch(loginUser());
+                getToastError('Your version has expired, please log in again');
+            }
+        }
+    }, []);
     return (
-        <div>
-            <Router>
-                <Routes>
-                    {routes.map((route) => {
-                        const Page = route.page;
-                        const Layout = route.isShowHeader ? DefaultLayout : Fragment;
-                        if (user && route.isPrivate) {
-                            return (
-                                <Route
-                                    key={route.path}
-                                    path={route.path}
-                                    element={
-                                        <Layout>
-                                            <Page />
-                                        </Layout>
-                                    }
-                                />
-                            );
-                        }  else if (!route.isPrivate) {
-                            return (
-                                <Route
-                                    key={route.path}
-                                    path={route.path}
-                                    element={
-                                        <Layout>
-                                            <Page />
-                                        </Layout>
-                                    }
-                                />
-                            );
-                        }
-                    })}
-                </Routes>
-            </Router>
-            <ToastContainerCustom />
-        </div>
+        <>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <div>
+                    <Router>
+                        <Routes>
+                            {routes.map((route) => {
+                                const Page = route.page;
+                                const Layout = route.isShowHeader ? DefaultLayout : Fragment;
+                                if (user && route.isPrivate) {
+                                    return (
+                                        <Route
+                                            key={route.path}
+                                            path={route.path}
+                                            element={
+                                                <Layout>
+                                                    <Page />
+                                                </Layout>
+                                            }
+                                        />
+                                    );
+                                } else if (!route.isPrivate) {
+                                    return (
+                                        <Route
+                                            key={route.path}
+                                            path={route.path}
+                                            element={
+                                                <Layout>
+                                                    <Page />
+                                                </Layout>
+                                            }
+                                        />
+                                    );
+                                }
+                            })}
+                        </Routes>
+                    </Router>
+                    <ToastContainerCustom />
+                </div>
+            )}
+        </>
     );
 }
 

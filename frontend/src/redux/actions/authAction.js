@@ -1,6 +1,9 @@
 import Cookies from 'universal-cookie';
 import {
     CLEAR_MESSAGE,
+    DETAIL_USER_FAILED,
+    DETAIL_USER_REQUEST,
+    DETAIL_USER_SUCCESS,
     FORGOT_PASSWORD_FAILED,
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
@@ -17,13 +20,18 @@ import {
     RESET_PASSWORD_SUCCESS,
     RESET_USER_REQUEST,
     RESET_USER_SUCCESS,
+    UPDATE_USER_FAILED,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
 } from '~/constants/authConstant';
 import {
     forgotPasswordService,
+    getDetailsUserService,
     loginService,
     logoutService,
     registerUserService,
     resetPasswordService,
+    updateUserInfoService,
 } from '~/services/authService';
 const cookies = new Cookies();
 const loginUser = (data) => async (dispatch) => {
@@ -125,7 +133,48 @@ const resetPassword = (token, data) => async (dispatch) => {
     }
 };
 
+const updateUser = (userId, data) => async (dispatch) => {
+    dispatch({ type: UPDATE_USER_REQUEST });
+    try {
+        const res = await updateUserInfoService(userId, data);
+        dispatch({ type: UPDATE_USER_SUCCESS, payload: { message: res.message, user: res.user } });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_USER_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
+    }
+};
+
+const getDetailsUser = (userId) => async (dispatch) => {
+    dispatch({ type: DETAIL_USER_REQUEST });
+    try {
+        const res = await getDetailsUserService(userId);
+        console.log('check res' , res);
+        dispatch({ type: DETAIL_USER_SUCCESS, payload: { message: res.message, user: res.user } });
+    } catch (error) {
+        dispatch({
+            type: DETAIL_USER_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
+    }
+};
+
 const clearMessage = () => (dispatch) => {
     dispatch({ type: CLEAR_MESSAGE });
 };
-export { loginUser, registerUser, resetUser, clearMessage, logoutUser, forgotPassword, resetPassword };
+export {
+    loginUser,
+    registerUser,
+    resetUser,
+    clearMessage,
+    logoutUser,
+    forgotPassword,
+    resetPassword,
+    updateUser,
+    getDetailsUser,
+};

@@ -16,13 +16,23 @@ import {
     getUserCart,
     emptyUserCart,
     applyCoupon,
+    uploadAvatarUser,
+    deleteAvatarUser,
 } from '../controllers/userController.js';
 import { authMiddleware, authUserMiddleware } from '../middlewares/authMiddleware.js';
+import { avatarImgResize, uploadImage } from '../middlewares/uploadImage.js';
 
 const router = express.Router();
 
+router.post(
+    '/user/upload-img/:id',
 
+    uploadImage.array('images', 1),
+    avatarImgResize,
+    uploadAvatarUser,
+);
 
+router.delete('/user/delete-img/:id', deleteAvatarUser);
 router.route('/auth/register').post(createUser);
 router.route('/auth/login').post(loginUser);
 router.route('/auth/logout').post(logoutUser);

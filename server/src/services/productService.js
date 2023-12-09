@@ -94,24 +94,6 @@ const searchProductService = async (keyword, limit) => {
     }
 };
 
-// const searchSuggestionProductService = async (keyword) => {
-//     try {
-//         const limitNumber = 10;
-//         const searchCondition = {
-//             $or: [{ name: { $regex: keyword, $options: 'i' } }, { description: { $regex: keyword, $options: 'i' } }],
-//         };
-
-//         const products = await Product.find(searchCondition).limit(limitNumber);
-//         if (products.length > 0) {
-//             return createMessage(200, 'Success', { data: products });
-//         } else {
-//             return createMessage(404, 'Not Found', { data: [] });
-//         }
-//     } catch (error) {
-//         return createMessage(500, error.message);
-//     }
-// };
-
 const getAllProductService = async (req) => {
     try {
         const excludedFields = ['page', 'sort', 'limit', 'fields'];

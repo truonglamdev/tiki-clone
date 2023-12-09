@@ -39,6 +39,16 @@ const resetPasswordService = async (token, data) => {
     return res;
 };
 
+const updateUserInfoService = async (userId, data) => {
+    const res = await request.put(`user/${userId}`, data);
+    return res;
+};
+
+const getDetailsUserService = async (userId) => {
+    const res = await request.get(`user/${userId}`);
+    return res;
+};
+
 export {
     loginService,
     refreshTokenService,
@@ -46,4 +56,6 @@ export {
     registerUserService,
     forgotPasswordService,
     resetPasswordService,
+    updateUserInfoService,
+    getDetailsUserService,
 };

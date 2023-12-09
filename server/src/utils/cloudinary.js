@@ -28,6 +28,8 @@ const cloudinaryUploadImg = async (fileToUploads) => {
         );
     });
 };
+
+
 const cloudinaryDeleteImg = async (listPublicId) => {
     return new Promise((resolve, reject) => {
         cloudinary.api.delete_resources(listPublicId, { type: 'upload', resource_type: 'image' }, (error, result) => {

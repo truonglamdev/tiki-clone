@@ -118,9 +118,7 @@
 
 // export { userReducer };
 
-
-
-import {produce} from 'immer';
+import { produce } from 'immer';
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -140,6 +138,12 @@ import {
     RESET_PASSWORD_REQUEST,
     RESET_PASSWORD_FAILED,
     RESET_PASSWORD_SUCCESS,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAILED,
+    DETAIL_USER_REQUEST,
+    DETAIL_USER_SUCCESS,
+    DETAIL_USER_FAILED,
 } from '~/constants/authConstant';
 
 const getUserFromLocalStorage = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
@@ -162,9 +166,10 @@ const userReducer = (state = initialState, action) => {
             case REGISTER_REQUEST:
             case FORGOT_PASSWORD_REQUEST:
             case RESET_PASSWORD_REQUEST:
+            case UPDATE_USER_REQUEST:
+            case DETAIL_USER_REQUEST:
                 draftState.isLoading = true;
                 draftState.isSuccess = false;
-                draftState.isAuthenticated = false;
                 draftState.message = '';
                 break;
             case LOGIN_SUCCESS: {
@@ -197,6 +202,20 @@ const userReducer = (state = initialState, action) => {
                 draftState.message = action.payload.message;
                 draftState.user = action.payload.user;
                 break;
+            case UPDATE_USER_SUCCESS: {
+                const newUser = { ...draftState.user, ...action.payload.user };
+                draftState.isLoading = false;
+                draftState.isSuccess = true;
+                draftState.message = action.payload;
+                draftState.user = newUser;
+                break;
+            }
+            case DETAIL_USER_SUCCESS:
+                draftState.isLoading = false;
+                draftState.isSuccess = true;
+                draftState.message = action.payload;
+                draftState.user = action.payload.user;
+                break;
             case FORGOT_PASSWORD_SUCCESS:
             case RESET_PASSWORD_SUCCESS:
                 draftState.isLoading = false;
@@ -208,6 +227,8 @@ const userReducer = (state = initialState, action) => {
             case REGISTER_FAILED:
             case FORGOT_PASSWORD_FAILED:
             case RESET_PASSWORD_FAILED:
+            case UPDATE_USER_FAILED:
+            case DETAIL_USER_FAILED:
                 draftState.isLoading = false;
                 draftState.isSuccess = false;
                 draftState.message = action.payload.message;

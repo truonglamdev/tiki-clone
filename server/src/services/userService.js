@@ -6,6 +6,8 @@ import sendEmailMessage from '../utils/sendEmailMessage.js';
 import Product from './../models/productModel.js';
 import { generateAccessToken, generateRefreshToken } from './jwtService.js';
 import Coupon from './../models/couponModel.js';
+import { cloudinaryDeleteImg, cloudinaryUploadImg } from '../utils/cloudinary.js';
+import fs from 'fs';
 
 const createUserService = async (user) => {
     try {
@@ -73,7 +75,7 @@ const updateUserService = async (id, data) => {
         return {
             status: 'OK',
             message: 'User updated successfully',
-            data: updatedUser,
+            user: updatedUser,
         };
     } catch (error) {
         return error;
@@ -109,7 +111,7 @@ const getDetailUserService = async (id) => {
         return {
             status: 'OK',
             message: 'Success',
-            data: userExist,
+            user: userExist,
         };
     } catch (error) {
         return error;
@@ -286,6 +288,41 @@ const applyCouponService = async (id, coupon) => {
         return createMessage(500, error.message);
     }
 };
+
+const uploadAvatarUserService = async (userId, files) => {
+    try {
+        console.log('check file', files);
+        const userExist = await User.findById(userId);
+        if (!userExist) {
+            return createMessage(404, 'User not found');
+        }
+        const uploader = (path) => cloudinaryUploadImg(path, 'images');
+        const path = files[0].path;
+        const newpath = await uploader(path);
+        fs.unlinkSync(path);
+        userExist.avatar = { public_id: newpath.public_id, url: newpath.url };
+        await userExist.save();
+        return createMessage(200, 'Success', { data: userExist });
+    } catch (error) {
+        return createMessage(500, error.message);
+    }
+};
+
+const deleteAvatarUserService = async (userId, publicIds) => {
+    try {
+        const userExist = await User.findById(userId);
+        if (!userExist) {
+            return createMessage(404, 'User not found');
+        }
+        await cloudinaryDeleteImg(publicIds, 'images');
+        userExist.avatar = { public_id: '', url: '' };
+        await userExist.save();
+        return createMessage(200, 'Deleted successfully');
+    } catch (error) {
+        return createMessage(500, error.message);
+    }
+};
+
 export {
     createUserService,
     deleteUserService,
@@ -301,4 +338,6 @@ export {
     getUserCartService,
     emptyUserCartService,
     applyCouponService,
+    uploadAvatarUserService,
+    deleteAvatarUserService,
 };

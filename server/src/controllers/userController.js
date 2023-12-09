@@ -14,6 +14,8 @@ import {
     getUserCartService,
     emptyUserCartService,
     applyCouponService,
+    uploadAvatarUserService,
+    deleteAvatarUserService,
 } from '../services/userService.js';
 
 import { refreshTokenJwtService } from '../services/jwtService.js';
@@ -59,6 +61,7 @@ const loginUser = async (req, res) => {
 const refreshToken = async (req, res) => {
     try {
         const refreshToken = await req.headers.refreshtoken?.split(' ')[1];
+        console.log('check' + req);
         if (!refreshToken) {
             return res.status(400).json({
                 status: 'ERR',
@@ -257,6 +260,42 @@ const applyCoupon = async (req, res) => {
         return res.status(500).json({ message: `Internal Server Error : ${error.message}` });
     }
 };
+
+const uploadAvatarUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { files } = req;
+        validateMongoDbId(id);
+        if (files.length === 0) {
+            return res.status(404).json({ message: 'Files not found' });
+        }
+        const response = await uploadAvatarUserService(id, files);
+        return res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({
+            status: 'ERR',
+            message: `Internal Server Error : ${error.message}`,
+        });
+    }
+};
+
+const deleteAvatarUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { listPublicId } = req.body;
+        validateMongoDbId(id);
+        if (listPublicId.length === 0) {
+            return res.status(404).json({ message: 'Public id is required' });
+        }
+        const response = await deleteAvatarUserService(id, listPublicId);
+        return res.status(response.statusCode).json(response.message);
+    } catch (error) {
+        return res.status(500).json({
+            status: 'ERR',
+            message: `Internal Server Error : ${error.message}`,
+        });
+    }
+};
 export {
     createUser,
     loginUser,
@@ -274,4 +313,6 @@ export {
     getUserCart,
     emptyUserCart,
     applyCoupon,
+    uploadAvatarUser,
+    deleteAvatarUser,
 };

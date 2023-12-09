@@ -9,4 +9,9 @@ const checkExpRefreshToken = (refreshToken) => {
     return true;
 };
 
-export default checkExpRefreshToken;
+const decodeJwtFunc = (token) => {
+    const decoded = jwtDecode(token);
+    return decoded;
+};
+
+export { checkExpRefreshToken, decodeJwtFunc };
