@@ -39,8 +39,25 @@ const resetPasswordService = async (token, data) => {
     return res;
 };
 
+const updatePasswordService = async (userId, data) => {
+    const res = await request.put(`password/update/${userId}`, data);
+    return res;
+};
+
 const updateUserInfoService = async (userId, data) => {
     const res = await request.put(`user/${userId}`, data);
+    return res;
+};
+
+const updateAvatarService = async (userId, data) => {
+    const res = await request.post(`user/upload-img/${userId}`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res;
+};
+
+const deleteAvatarService = async (userId, data) => {
+    const res = await request.remove(`user/delete-img/${userId}`, data);
     return res;
 };
 
@@ -58,4 +75,7 @@ export {
     resetPasswordService,
     updateUserInfoService,
     getDetailsUserService,
+    updateAvatarService,
+    deleteAvatarService,
+    updatePasswordService,
 };

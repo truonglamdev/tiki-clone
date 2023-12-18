@@ -1,6 +1,9 @@
 import Cookies from 'universal-cookie';
 import {
     CLEAR_MESSAGE,
+    DELETE_AVATAR_FAILED,
+    DELETE_AVATAR_REQUEST,
+    DELETE_AVATAR_SUCCESS,
     DETAIL_USER_FAILED,
     DETAIL_USER_REQUEST,
     DETAIL_USER_SUCCESS,
@@ -20,6 +23,12 @@ import {
     RESET_PASSWORD_SUCCESS,
     RESET_USER_REQUEST,
     RESET_USER_SUCCESS,
+    UPDATE_AVATAR_FAILED,
+    UPDATE_AVATAR_REQUEST,
+    UPDATE_AVATAR_SUCCESS,
+    UPDATE_PASSWORD_FAILED,
+    UPDATE_PASSWORD_REQUEST,
+    UPDATE_PASSWORD_SUCCESS,
     UPDATE_USER_FAILED,
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
@@ -32,6 +41,9 @@ import {
     registerUserService,
     resetPasswordService,
     updateUserInfoService,
+    updateAvatarService,
+    deleteAvatarService,
+    updatePasswordService,
 } from '~/services/authService';
 const cookies = new Cookies();
 const loginUser = (data) => async (dispatch) => {
@@ -92,6 +104,7 @@ const registerUser = (data) => async (dispatch) => {
     dispatch({ type: REGISTER_REQUEST });
     try {
         const res = await registerUserService(data);
+        localStorage.setItem('user', JSON.stringify(res.user));
         dispatch({ type: REGISTER_SUCCESS, payload: { user: res.user, message: res.message } });
     } catch (error) {
         dispatch({
@@ -148,15 +161,61 @@ const updateUser = (userId, data) => async (dispatch) => {
     }
 };
 
+const updateAvatar = (userId, data) => async (dispatch) => {
+    dispatch({ type: UPDATE_AVATAR_REQUEST });
+    try {
+        const res = await updateAvatarService(userId, data);
+        dispatch({ type: UPDATE_AVATAR_SUCCESS, payload: { message: res.message, user: res.data } });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_AVATAR_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
+    }
+};
+
+const deleteAvatar = (userId, data) => async (dispatch) => {
+    dispatch({ type: DELETE_AVATAR_REQUEST });
+    try {
+        const res = await deleteAvatarService(userId, data);
+        dispatch({ type: DELETE_AVATAR_SUCCESS, payload: { message: res.message } });
+    } catch (error) {
+        dispatch({
+            type: DELETE_AVATAR_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
+    }
+};
+
 const getDetailsUser = (userId) => async (dispatch) => {
     dispatch({ type: DETAIL_USER_REQUEST });
     try {
         const res = await getDetailsUserService(userId);
-        console.log('check res' , res);
+        localStorage.removeItem('user');
+        localStorage.setItem('user', JSON.stringify(res.user));
         dispatch({ type: DETAIL_USER_SUCCESS, payload: { message: res.message, user: res.user } });
     } catch (error) {
         dispatch({
             type: DETAIL_USER_FAILED,
+            payload: {
+                message: error.response?.data?.message,
+            },
+        });
+    }
+};
+
+const updatePassword = (userId, data) => async (dispatch) => {
+    dispatch({ type: UPDATE_PASSWORD_REQUEST });
+    try {
+        const res = await updatePasswordService(userId, data);
+        dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: { message: res.message } });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PASSWORD_FAILED,
             payload: {
                 message: error.response?.data?.message,
             },
@@ -177,4 +236,7 @@ export {
     resetPassword,
     updateUser,
     getDetailsUser,
+    updateAvatar,
+    deleteAvatar,
+    updatePassword,
 };

@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function InputField({ name, title = '', register, errors }) {
     const [type, setType] = useState('text');
     useEffect(() => {
-        if (name === 'password' || name === 'confirmPassword') {
+        if (name === 'password' || name === 'confirmPassword' || name === 'newPassword') {
             setType('password');
         }
     }, [name]);
@@ -17,7 +17,7 @@ function InputField({ name, title = '', register, errors }) {
         <div className={cx('wrapper')}>
             <div className={cx('input-group', errors[name]?.message ? 'invalid' : '')}>
                 <input type={type} {...register(name)} placeholder={title} className={cx('input-field')} />
-                {(name === 'password' || name === 'confirmPassword') && (
+                {(name === 'password' || name === 'confirmPassword' || name === 'newPassword') && (
                     <div
                         className={cx('ege-icon')}
                         onClick={() => {

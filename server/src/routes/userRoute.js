@@ -31,7 +31,6 @@ router.post(
     avatarImgResize,
     uploadAvatarUser,
 );
-
 router.delete('/user/delete-img/:id', deleteAvatarUser);
 router.route('/auth/register').post(createUser);
 router.route('/auth/login').post(loginUser);

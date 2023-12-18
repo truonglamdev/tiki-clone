@@ -291,18 +291,25 @@ const applyCouponService = async (id, coupon) => {
 
 const uploadAvatarUserService = async (userId, files) => {
     try {
-        console.log('check file', files);
-        const userExist = await User.findById(userId);
+        const userExist = await User.findById(userId).select('-password');
         if (!userExist) {
             return createMessage(404, 'User not found');
+        }
+        const oldPublicId = [];
+        if (userExist?.avatar?.public_id) {
+            oldPublicId.push(userExist?.avatar?.public_id);
         }
         const uploader = (path) => cloudinaryUploadImg(path, 'images');
         const path = files[0].path;
         const newpath = await uploader(path);
         fs.unlinkSync(path);
         userExist.avatar = { public_id: newpath.public_id, url: newpath.url };
-        await userExist.save();
-        return createMessage(200, 'Success', { data: userExist });
+        await userExist.save({ new: true });
+
+        if (oldPublicId.length > 0) {
+            await cloudinaryDeleteImg(oldPublicId, 'images');
+        }
+        return createMessage(200, 'Update avatar successfully', { data: userExist });
     } catch (error) {
         return createMessage(500, error.message);
     }
@@ -317,7 +324,7 @@ const deleteAvatarUserService = async (userId, publicIds) => {
         await cloudinaryDeleteImg(publicIds, 'images');
         userExist.avatar = { public_id: '', url: '' };
         await userExist.save();
-        return createMessage(200, 'Deleted successfully');
+        return createMessage(200, 'Deleted images successfully');
     } catch (error) {
         return createMessage(500, error.message);
     }

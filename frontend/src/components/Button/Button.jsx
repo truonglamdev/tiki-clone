@@ -17,7 +17,9 @@ function Button({
     rightIcon,
     small,
     large,
+    medium,
     outline = false,
+    isLoading = false,
     ...passProps
 }) {
     let Comp = 'button';
@@ -41,11 +43,20 @@ function Button({
         small,
         outline,
         large,
+        medium,
+        isLoading,
     });
     return (
         <Comp className={classes} {...props}>
             {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
-            <span className={cx('title')}>{children}</span>
+            {isLoading ? (
+                <span className={cx('loading')}>
+                    <span className={cx('loader')}></span>
+                </span>
+            ) : (
+                <span className={cx('title')}>{children}</span>
+            )}
+
             {rightIcon && <span className={cx('icon')}>{rightIcon}</span>}
         </Comp>
     );
@@ -58,7 +69,6 @@ Button.propTypes = {
     onClick: PropTypes.func,
     leftIcon: PropTypes.node,
     rightIcon: PropTypes.node,
-    
 };
 
 export default Button;

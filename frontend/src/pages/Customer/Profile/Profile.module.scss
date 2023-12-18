@@ -103,8 +103,11 @@
 }
 
 .avatar-img {
-    width: 60px;
-    height: 60px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
 }
 
 .pen-icon {
@@ -131,22 +134,27 @@
     align-items: center;
     margin: 0px 0px 34px;
 
-    @include respond-to(mobile) {
+    @include respond-to(tablet) {
         margin: 0 0 24px;
+    }
+
+    @include respond-to(mobile) {
+        margin: 0 0 16px;
     }
 
     .label {
         width: 110px;
         min-width: 110px;
-        font-size: 14px;
+        font-size: 1.4rem;
         color: rgb(51, 51, 51);
         margin-right: 16px;
         font-size: 1.4rem;
 
         @include respond-to(mobile) {
+            font-size: 1.2rem;
             margin-right: 8px;
-            min-width: 80px;
-            width: 80px;
+            min-width: 70px;
+            width: 70px;
         }
     }
 }
@@ -177,7 +185,7 @@
     }
 
     @include respond-to(mobile) {
-        width: 200px;
+        width: 170px;
     }
 }
 
@@ -200,11 +208,11 @@
     }
 
     @include respond-to(tablet) {
-        width: 600px;
+        width: 90%;
     }
 
     @include respond-to(mobile) {
-        width: 200px;
+        width: 100%;
     }
 }
 
@@ -212,17 +220,17 @@
     width: 100%;
     input {
         width: 250px;
-
         @include respond-to(mobile) {
-            width: 200px;
+            width: 170px;
         }
     }
 
     select {
-        width: 274px;
+        width: 280px;
 
         @include respond-to(mobile) {
-            width: 200px;
+            width: 192px;
+            height: 40px;
         }
     }
 }
@@ -231,6 +239,11 @@
     color: #fff;
     background-color: $primary-color;
 
+    @include respond-to(mobile) {
+        margin-top: 10px;
+        width: 160px;
+        height: 40px;
+    }
     &:hover {
         overflow: 0.8;
     }
@@ -276,4 +289,106 @@
 
 .list-item + .list-item {
     border-top: 1px solid $border-color;
+}
+
+.preview-modal {
+    width: 600px;
+    padding: 12px 26px;
+    display: flex;
+    flex-direction: column;
+
+    @include respond-to(tablet) {
+        width: 520px;
+    }
+
+    @include respond-to(mobile) {
+        width: 250px;
+        padding: 10px;
+    }
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+
+    h2 {
+        font-size: 1.6rem;
+        color: $text-primary;
+        font-weight: 500;
+    }
+    svg {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        display: flex;
+        color: $text-primary;
+    }
+
+    @include respond-to(mobile) {
+        margin-bottom: 4px;
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+}
+
+.preview-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 8px 0 20px;
+
+    @include respond-to(mobile) {
+        flex-direction: column;
+    }
+}
+
+.preview-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #c2e1ff;
+    background-color: #f0f8ff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include respond-to(mobile) {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+.img-edit {
+    // flex: 1;
+    overflow: hidden;
+}
+
+.min-btn {
+    margin-left: 10px;
+    color: #fff;
+    background-color: $primary-color;
+}
+
+.update-modal {
+    padding: 20px 30px;
+
+    @include respond-to(mobile) {
+        width: 300px;
+        padding: 10px 16px;
+    }
+}
+
+.form-update {
+    @include respond-to(mobile) {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
 }

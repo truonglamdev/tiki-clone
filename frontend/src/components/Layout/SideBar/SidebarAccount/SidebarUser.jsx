@@ -11,7 +11,7 @@ import Image from '~/components/Image/Image';
 import { useSelector } from 'react-redux';
 const cx = classNames.bind(styles);
 function SidebarUser() {
-    const user = useSelector((state) => state.auth.user);
+    const { user } = useSelector((state) => state.auth);
 
     const ListItemCustomer = [
         {
@@ -107,7 +107,7 @@ function SidebarUser() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('profile-card')}>
-                <Image src={user?.avatar} alt="avatar" className={cx('avatar')} />
+                <Image src={user?.avatar?.url} alt="avatar" className={cx('avatar')} />
                 <div className={cx('name')}>
                     <span>Account of </span>
                     <p>{user.name}</p>

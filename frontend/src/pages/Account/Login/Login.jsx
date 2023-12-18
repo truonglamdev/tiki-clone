@@ -18,7 +18,7 @@ const cx = classNames.bind(styles);
 function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { isSuccess, message, isLoading, user } = useSelector((state) => state.auth);
+    const { isSuccess, message, isLoading, user, isAuthenticated } = useSelector((state) => state.auth);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().required('Email is required').email('Invalid email'),
@@ -31,19 +31,20 @@ function Login() {
         formState: { errors },
     } = useForm({ resolver: yupResolver(validationSchema) });
 
-    const onSubmitLoginForm = ({ email, password }) => {
-        dispatch(loginUser({ email, password }));
+    const onSubmitLoginForm = async ({ email, password }) => {
+        await dispatch(loginUser({ email, password }));
     };
 
     useEffect(() => {
-        if (user) {
-            navigate('/');
-        }
         if (message && !isSuccess) {
             getToastError(message);
             dispatch(clearMessage());
         }
-    }, [user, isSuccess, navigate, message, dispatch]);
+        if (isSuccess && isAuthenticated && user) {
+            navigate('/');
+            dispatch(clearMessage());
+        }
+    }, [isSuccess, message, dispatch, isAuthenticated, navigate, user]);
 
     return (
         <>

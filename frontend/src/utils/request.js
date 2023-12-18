@@ -60,12 +60,12 @@ export const get = async (path, params) => {
 };
 
 export const post = async (path, data, config = {}) => {
-    const res = await instance.post(path, data, config);
+    const res = await instance.post(path, data, { ...config });
     return res.data;
 };
 
 export const put = async (path, data) => {
-    const res = await instance.put(path, data );
+    const res = await instance.put(path, data);
     return res.data;
 };
 
