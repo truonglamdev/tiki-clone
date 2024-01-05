@@ -6,7 +6,7 @@ const loggerMiddleware = createLogger({
 });
 const middleWare = [];
 middleWare.push(thunk);
-middleWare.push(loggerMiddleware);
+// middleWare.push(loggerMiddleware);
 import thunk from 'redux-thunk';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, {}, composeEnhancers(applyMiddleware(...middleWare)));

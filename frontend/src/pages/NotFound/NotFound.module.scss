@@ -1,0 +1,28 @@
+.wrapper {
+}
+
+.banner {
+    display: flex;
+    flex-direction: column;
+}
+
+.banner-top {
+    height: 160px;
+    background-color: #3fc6f5;
+    // background-image: url(../img/404/city-cloud.png);
+    // background-repeat: repeat-x;
+    // background-position: bottom center;
+    // background-size: contain;
+}
+
+.banner-bottom {
+    height: 120px;
+    background-color: #fdba13;
+}
+
+.item-1 {
+    display: inline-block;
+    margin-bottom: 10px;
+    vertical-align: bottom;
+    white-space: normal;
+}

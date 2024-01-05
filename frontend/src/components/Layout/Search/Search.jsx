@@ -37,13 +37,12 @@ function Search({ onShowModal }) {
         navigate(`/search?q=${debounceValue}`);
     };
     useEffect(() => {
-        const fetchData = async () => {
+        (async () => {
             const res = await request.get(`search?q=${debounceValue}&limit=4`);
-            if (res.data) {
+            if (res?.data) {
                 setSuggestResult(res.data);
             }
-        };
-        fetchData();
+        })();
     }, [debounceValue]);
 
     useEffect(() => {

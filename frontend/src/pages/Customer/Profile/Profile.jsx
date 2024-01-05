@@ -15,8 +15,8 @@ import AccountLayout from '~/components/Layout/AccountLayout';
 import { getToastError, getToastSuccess, getToastWarning } from '~/customs/toastMessage/toastMessage';
 import noImage from '~/images/noImage.png';
 import { clearMessage, updateAvatar, updateUser } from '~/redux/actions/authAction';
-import styles from './Profile.module.scss';
 import ChangePassword from './ChangePassword/ChangePassword';
+import styles from './Profile.module.scss';
 const cx = classNames.bind(styles);
 
 function Profile() {
@@ -123,7 +123,7 @@ function Profile() {
         updateUserInfo('country', user?.country || 'VN');
         updateUserInfo('gender', user?.gender || 'Male');
         updateUserInfo('phone', user?.phone || '');
-        if (user?.avatar.url) {
+        if (user?.avatar?.url) {
             setPreview(user?.avatar.url);
         }
         if (!isSuccess && message) {

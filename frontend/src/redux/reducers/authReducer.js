@@ -155,7 +155,8 @@ import {
     UPDATE_PASSWORD_FAILED,
 } from '~/constants/authConstant';
 
-const getUserFromLocalStorage = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+const getUserFromLocalStorage =
+    localStorage.getItem('user')  ? JSON.parse(localStorage.getItem('user')) : null;
 
 const initialState = {
     user: getUserFromLocalStorage,
@@ -219,14 +220,14 @@ const userReducer = (state = initialState, action) => {
                 const newUser = { ...draftState.user, ...action.payload.user };
                 draftState.isLoading = false;
                 draftState.isSuccess = true;
-                draftState.message = action.payload;
+                draftState.message = action.payload.message;
                 draftState.user = newUser;
                 break;
             }
             case DETAIL_USER_SUCCESS:
                 draftState.isLoading = false;
                 draftState.isSuccess = true;
-                draftState.message = action.payload;
+                draftState.message = action.payload.message;
                 draftState.user = action.payload.user;
                 break;
             case FORGOT_PASSWORD_SUCCESS:

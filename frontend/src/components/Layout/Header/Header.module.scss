@@ -10,7 +10,8 @@
     justify-content: space-between;
 
     @include respond-to(mobile-tablet) {
-        padding: 16px 8px;
+        padding: 12px 8px;
+        gap: 4px;
     }
 }
 
@@ -25,6 +26,20 @@
 
     @include respond-to(mobile-tablet) {
         display: none;
+    }
+}
+
+.prev-icon {
+    display: none;
+    padding: 4px;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    @include respond-to(mobile-tablet) {
+        display: block;
     }
 }
 
@@ -170,7 +185,7 @@
     color: $text-primary;
 }
 
-.modal-wrapper {
+.search-mobile {
     z-index: 1000;
 }
 
@@ -191,8 +206,8 @@
         padding: 10px 16px;
 
         svg {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             @include respond-to(mobile) {
                 width: 16px;
                 height: 16px;

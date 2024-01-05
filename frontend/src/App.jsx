@@ -1,19 +1,20 @@
 import { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import DefaultLayout from './components/Layout/DefaultLayout';
 import ToastContainerCustom from './customs/toastMessage/ToastContainerCustom';
 import { getToastError } from './customs/toastMessage/toastMessage';
 import { getDetailsUser, loginUser, resetUser } from './redux/actions/authAction';
-import { routes } from './routes';
 import { decodeJwtFunc, checkExpRefreshToken } from './utils/decodedJwt';
 import Loading from './components/Loading/Loading';
+import ProtectedRoute from './components/ProtectedRoute';
+import routes from './routes/routes';
 const cookies = new Cookies();
 
 function App() {
+    const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-    const { user, isLoading } = useSelector((state) => state.auth);
     // if (refreshToken) {
     //     if (checkExpRefreshToken) {
     //         dispatch(resetUser());
@@ -22,9 +23,8 @@ function App() {
     // }
 
     useEffect(() => {
-        console.log('re-render-app');
-        const accessToken = cookies.get('accessToken');
         // const refreshToken = cookies.get('refreshToken');
+        const accessToken = cookies.get('accessToken');
         if (accessToken) {
             const { id } = decodeJwtFunc(accessToken);
             dispatch(getDetailsUser(id));
@@ -40,22 +40,41 @@ function App() {
         <>
             <Router>
                 <Routes>
+                    {/* {privateRoutes.map((route) => {
+                        const Page = route.page;
+                        const Layout = route.isShowHeader ? DefaultLayout : Fragment;
+                        return (
+                            <Route
+                                key={route.path}
+                                path={route.path}
+                                element={
+                                    <ProtectedRoute redirectTo="/login" roles={route.roles}>
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    </ProtectedRoute>
+                                }
+                            />
+                        );
+                    })} */}
                     {routes.map((route) => {
                         const Page = route.page;
                         const Layout = route.isShowHeader ? DefaultLayout : Fragment;
-                        if (user && route.isPrivate) {
+                        if (route.isPrivate) {
                             return (
                                 <Route
                                     key={route.path}
                                     path={route.path}
                                     element={
-                                        <Layout>
-                                            <Page />
-                                        </Layout>
+                                        <ProtectedRoute redirectTo="/login" roles={route.roles} user={user}>
+                                            <Layout>
+                                                <Page />
+                                            </Layout>
+                                        </ProtectedRoute>
                                     }
                                 />
                             );
-                        } else if (!route.isPrivate) {
+                        } else {
                             return (
                                 <Route
                                     key={route.path}

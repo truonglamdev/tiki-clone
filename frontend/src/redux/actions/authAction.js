@@ -51,6 +51,9 @@ const loginUser = (data) => async (dispatch) => {
     try {
         const res = await loginService(data);
         if (res) {
+            localStorage.removeItem('user');
+            cookies.remove('accessToken');
+            cookies.remove('refreshToken');
             localStorage.setItem('user', JSON.stringify(res.user));
             cookies.set('accessToken', res?.accessToken);
             cookies.set('refreshToken', res?.refreshToken);

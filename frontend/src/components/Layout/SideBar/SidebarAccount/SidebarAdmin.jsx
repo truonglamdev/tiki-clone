@@ -1,84 +1,65 @@
 import classNames from 'classnames/bind';
-import styles from './SidebarAccount.module.scss';
+import { BsMenuDown } from 'react-icons/bs';
+import { IoBagCheckOutline, IoNewspaperOutline } from 'react-icons/io5';
+import { LiaProductHunt } from 'react-icons/lia';
+import { LuUsers } from 'react-icons/lu';
+import { MdOutlineBrandingWatermark, MdOutlineColorLens, MdOutlineDashboard } from 'react-icons/md';
+import { RiCoupon2Line } from 'react-icons/ri';
 import ListSidebarItem from '../ListSidebarItem';
-import sidebarImage from '~/images/sidebarImages';
-import { FaUser } from 'react-icons/fa';
-
+import styles from './SidebarAccount.module.scss';
 const cx = classNames.bind(styles);
 function SidebarAdmin() {
     const data = [
         {
-            image: sidebarImage.reward,
-            title: 'Astra Reward',
-            path: '/astra',
-            icon: <FaUser />,
+            title: 'Dashboard',
+            path: '/admin/dashboard',
+            icon: <MdOutlineDashboard />,
         },
         {
-            image: sidebarImage.tikiExchange,
-            title: 'Tiki Exchange',
-            path: '/exchange',
-            icon: '',
+            title: 'Customers',
+            path: '/admin/customers',
+            icon: <LuUsers />,
         },
         {
-            image: sidebarImage.clearance,
-            title: 'Clearance sale',
-            path: '/clearance',
-            icon: '',
+            title: 'Orders',
+            path: '/admin/order',
+            icon: <IoBagCheckOutline />,
         },
         {
-            image: sidebarImage.voucher,
-            title: 'Voucher',
-            path: '/voucher',
-            icon: '',
+            title: 'Categories',
+            path: '/admin/category',
+            icon: <BsMenuDown />,
         },
         {
-            image: sidebarImage.digitalWallet,
-            title: 'Card promotions',
-            path: '/promotion',
-            icon: '',
+            title: 'Products',
+            path: '/admin/product',
+            icon: <LiaProductHunt />,
         },
         {
-            image: sidebarImage.payBill,
-            title: 'Payment , to up',
-            path: '/to-up',
-            icon: '',
+            title: 'Brands',
+            path: '/admin/brand',
+            icon: <MdOutlineBrandingWatermark />,
         },
         {
-            image: sidebarImage.payLater,
-            title: 'Buy now, pay later',
-            path: '/payLater',
-            icon: '',
+            title: 'Colors',
+            path: '/admin/color',
+            icon: <MdOutlineColorLens />,
         },
         {
-            image: sidebarImage.voucher,
-            title: 'Voucher',
-            path: '/voucher',
-            icon: '',
+            title: 'Vouchers',
+            path: '/admin/coupon',
+            icon: <RiCoupon2Line />,
         },
         {
-            image: sidebarImage.digitalWallet,
-            title: 'Card promotions',
-            path: '/promotion',
-            icon: '',
-        },
-        {
-            image: sidebarImage.payBill,
-            title: 'Payment , to up',
-            path: '/to-up',
-            icon: '',
-        },
-        {
-            image: sidebarImage.payLater,
-            title: 'Buy now, pay later',
-            path: '/payLater',
-            icon: '',
+            title: 'Blogs',
+            path: '/admin/blog',
+            icon: <IoNewspaperOutline />,
         },
     ];
 
     return (
-        <div className={cx('wrapper')}>
-            <ListSidebarItem title="OutStanding" data={data} />
-            <ListSidebarItem title="OutStanding" data={data} />
+        <div className={cx('wrapper')} > 
+            <ListSidebarItem title="Admin system" data={data}  />
         </div>
     );
 }

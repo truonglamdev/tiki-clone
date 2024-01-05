@@ -1,27 +1,23 @@
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
-import { useEffect, useRef, useState } from 'react';
-import { FaBars } from 'react-icons/fa';
-import { FcPrevious } from 'react-icons/fc';
-import { FiShoppingCart } from 'react-icons/fi';
-import Modal from 'react-modal';
+import { useEffect, useState } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import DropdownItem from '~/components/DropdownItem';
 import { Wrapper as WrapperPopper } from '~/components/Popper';
-import SearchProductItem from '~/components/SearchProductItem';
-import SuggestItem from '~/components/SuggestItem';
-import { getToastSuccess } from '~/customs/toastMessage/toastMessage';
+
+import { getToastError, getToastSuccess } from '~/customs/toastMessage/toastMessage';
 import iconImages from '~/images/iconImages';
 import logo from '~/images/logo.png';
 import { clearMessage, logoutUser } from '~/redux/actions/authAction';
 import Search from '../Search';
 import styles from './Header.module.scss';
-import SidebarMobile from '~/components/Layout/SideBar/SidebarMobile';
+import SearchMobile from '../SearchMobile';
+import { IoChevronBack } from 'react-icons/io5';
 
 const cx = classNames.bind(styles);
 export default function Header() {
-    const inputRef = useRef();
     const [isShowMenu, setIsShowMenu] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const dispatch = useDispatch();
@@ -36,21 +32,6 @@ export default function Header() {
         { category: 'trái cây', path: '/' },
         { category: 'trái cây', path: '/' },
     ];
-    const customStylesModal = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: '100',
-            width: '100%',
-            height: '100vh',
-            backgroundColor: '#fff',
-            padding: '0',
-        },
-    };
 
     const handleLogout = () => {
         dispatch(logoutUser());
@@ -68,17 +49,22 @@ export default function Header() {
 
     const handleShowModal = () => {
         setIsOpenModal(true);
-        setTimeout(() => {
-            inputRef.current.focus();
-        }, 300);
+    };
+
+    const handleCloseSearchMobile = () => {
+        setIsOpenModal(false);
     };
 
     useEffect(() => {
-        if (isSuccess && message) {
+        if (!isSuccess && message) {
+            getToastError(message);
+            dispatch(clearMessage());
+        }
+        if (!user && message) {
             getToastSuccess(message);
             dispatch(clearMessage());
         }
-    }, [isSuccess, dispatch, message]);
+    }, [isSuccess, dispatch, message, user]);
 
     return (
         <>
@@ -89,6 +75,9 @@ export default function Header() {
                             <img src={logo} className={cx('logo-image')} alt="logo" />
                         </Link>
                     </div>
+                    <Link to="/" className={cx('prev-icon')}>
+                        <IoChevronBack />
+                    </Link>
                     <div className={cx('search')}>
                         <Search onShowModal={handleShowModal} />
                     </div>
@@ -152,7 +141,8 @@ export default function Header() {
                         <span>{user && user.address ? user.address : 'Not yet updated'}</span>
                     </div>
                 </div>
-                <div className={cx('modal-wrapper')}>
+                <SearchMobile isOpen={isOpenModal} onClose={handleCloseSearchMobile} />
+                {/* <div className={cx('search-mobile')}>
                     <Modal isOpen={isOpenModal} style={customStylesModal}>
                         <SidebarMobile />
                         <main id="page-wrap" className={cx('content-wrap')}>
@@ -176,22 +166,22 @@ export default function Header() {
                                 </div>
                             </div>
                             <div className={cx('history-result')}>
-                                {/* <SuggestItem />
-                                    <SuggestItem />
-                                    <SuggestItem />
-                                    <SuggestItem /> */}
+                                <SuggestItem />
+                                <SuggestItem />
+                                <SuggestItem />
+                                <SuggestItem />
                             </div>
                             <div className={cx('product-search')}>
-                                {/* <SearchProductItem />
-                                    <SearchProductItem />
-                                    <SearchProductItem />
-                                    <SearchProductItem />
-                                    <SearchProductItem />
-                                    <SearchProductItem /> */}
+                                <SearchProductItem />
+                                <SearchProductItem />
+                                <SearchProductItem />
+                                <SearchProductItem />
+                                <SearchProductItem />
+                                <SearchProductItem />
                             </div>
                         </main>
                     </Modal>
-                </div>
+                </div> */}
             </div>
         </>
     );

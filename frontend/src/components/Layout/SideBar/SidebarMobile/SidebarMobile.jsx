@@ -52,10 +52,10 @@ export default function SidebarMobile() {
                                 <FaCircleUser />
                             </span>
                         }
+                        href="/customer/profile"
                     >
                         Account Management
                     </DropdownItem>
-
                     <DropdownItem
                         iconLeft={
                             <span className={cx('icon')}>

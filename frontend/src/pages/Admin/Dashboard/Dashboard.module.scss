@@ -1,0 +1,94 @@
+@import '../../../components/Sass/variables';
+@import '../../../components/Sass/mixin';
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header {
+    // width: 100%;
+    height: 36px;
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-left: 6px solid $primary-color;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: #333;
+    font-size: 1.6rem;
+    font-weight: 500;
+
+    @include respond-to(mobile) {
+        display: none;
+    }
+}
+
+.container {
+    width: 100%;
+    border: 1px solid $border-color;
+    min-height: 500px;
+    border-radius: 8px;
+    display: flex;
+}
+
+.content-left,
+.content-right {
+    flex: 1;
+    padding: 16px;
+}
+
+.total-cart {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.cart {
+    width: 49%;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    gap: 12px;
+    padding: 4px 8px;
+    background-color: #fff;
+
+    &:hover {
+        background-color: #cbddfa66;
+    }
+
+    .cart-left {
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: #8cb8fe66;
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .cart-right {
+        flex: 1;
+        display: flex;
+        gap: 2px;
+        flex-direction: column;
+        font-size: 1rem;
+        color: $text-color;
+        font-size: 400;
+
+        .title {
+            font-size: 1.4rem;
+            color: $active-color;
+            font-size: 500;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+@import '../../../components/Sass/variables';
+@import '../../../components/Sass/mixin';
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header {
+    // width: 100%;
+    height: 36px;
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-left: 6px solid $primary-color;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    color: #333;
+    font-size: 1.6rem;
+    font-weight: 500;
+
+    @include respond-to(mobile) {
+        display: none;
+    }
+}
