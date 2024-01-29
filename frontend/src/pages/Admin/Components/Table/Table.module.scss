@@ -1,0 +1,169 @@
+@import '../../../../components/Sass/mixin';
+@import '../../../../components/Sass/variables';
+
+.container {
+    width: 100%;
+}
+.toolbar {
+    display: flex;
+    margin-bottom: 16px;
+    width: 100%;
+    padding: 4px;
+    align-items: center;
+    gap: 10px;
+
+    @include respond-to(mobile) {
+    }
+}
+
+.search {
+    width: 400px;
+
+    @include respond-to(mobile) {
+        width: 230px;
+    }
+}
+
+.export {
+    width: 130px;
+}
+
+.export-btn {
+    padding: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: #2eff31;
+
+    @include respond-to(mobile) {
+        margin-left: 8px;
+        padding: 10px;
+    }
+}
+
+.sort {
+    width: 140px;
+}
+
+.input {
+    outline: none;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 16px;
+    color: $text-primary;
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 90%;
+
+    &:focus {
+        border: 1px solid $primary-color;
+    }
+
+    option {
+        padding: 4px 0;
+        cursor: pointer;
+    }
+}
+
+table {
+    width: 100%;
+    border: 1px solid #424242;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border-spacing: 0;
+}
+
+thead {
+    display: block;
+    background-color: $primary-color;
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+}
+tbody tr {
+    &:hover {
+        background-color: #fdf2f2;
+    }
+}
+
+tr {
+    display: flex;
+    width: fit-content;
+}
+
+th,
+td {
+    width: 100%;
+    padding: 8px;
+    align-items: left;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include respond-to(mobile) {
+        width: 100px;
+    }
+}
+
+th {
+    position: relative;
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+td {
+    border-bottom: 1px solid #ccc;
+    color: $text-primary;
+}
+.resizer {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 3px;
+    background: #333;
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+    border-radius: 8px;
+}
+
+.isResizing {
+    background: #2eff31;
+    opacity: 1;
+}
+
+*:hover > .resizer {
+    opacity: 1;
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+    margin: 6px 0 10px;
+    justify-content: start;
+
+    button {
+        outline: none;
+        border: 1px solid #333;
+        border-radius: 4px;
+        padding: 6px 12px;
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: $text-primary;
+        cursor: pointer;
+        min-width: 70px;
+        background-color: #ebebf0;
+    }
+}
+
+.total-page {
+    font-size: 1.2rem;
+    color: $text-primary;
+    font-weight: 500;
+}

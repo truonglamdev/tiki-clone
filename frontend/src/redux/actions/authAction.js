@@ -16,6 +16,7 @@ import {
     LOGOUT_FAILED,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
+    REGISTER_FAILED,
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
     RESET_PASSWORD_FAILED,
@@ -111,7 +112,7 @@ const registerUser = (data) => async (dispatch) => {
         dispatch({ type: REGISTER_SUCCESS, payload: { user: res.user, message: res.message } });
     } catch (error) {
         dispatch({
-            type: LOGOUT_FAILED,
+            type: REGISTER_FAILED,
             payload: {
                 message: error.response?.data?.message,
             },
@@ -225,6 +226,8 @@ const updatePassword = (userId, data) => async (dispatch) => {
         });
     }
 };
+
+
 
 const clearMessage = () => (dispatch) => {
     dispatch({ type: CLEAR_MESSAGE });

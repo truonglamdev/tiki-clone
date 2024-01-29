@@ -37,7 +37,7 @@ a {
 
 .container-header {
     margin: 0 auto;
-    padding: 8px 24px ;
+    padding: 8px 24px;
     @include respond-to(desktop) {
         max-width: 1440px;
     }
@@ -82,3 +82,17 @@ html *::-webkit-scrollbar-track {
     background: none;
 }
 
+//styles transtion for modal
+
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+}

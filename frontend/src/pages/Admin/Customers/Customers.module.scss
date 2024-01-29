@@ -20,8 +20,64 @@
     color: #333;
     font-size: 1.6rem;
     font-weight: 500;
+    margin-bottom: 12px;
 
     @include respond-to(mobile) {
         display: none;
     }
+}
+
+.create-btn {
+    margin-top: 6px;
+}
+
+//styles modal add user
+
+.model-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px 18px;
+    border: 1px solid #ccc;
+    min-width: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+
+    @include respond-to(mobile) {
+        padding: 10px 6px;
+        border-radius: none;
+        min-width: 300px;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+        font-size: 1.6rem;
+        font-weight: 500;
+    }
+
+    svg {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+
+        @include respond-to(mobile) {
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
+
+.model-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-submit {
+    margin-top: 6px;
 }
