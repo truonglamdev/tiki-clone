@@ -1,32 +1,23 @@
-import classNames from 'classnames/bind';
-import AccountLayout from '~/components/Layout/AccountLayout';
-import columns from '../Components/Columns/customerColumns';
-import Table from '../Components/Table';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import styles from './Customers.module.scss';
-import { LuUserPlus } from 'react-icons/lu';
-import Button from '~/components/Button';
-import Modal from 'react-modal';
-import { IoIosClose } from 'react-icons/io';
+import classNames from 'classnames/bind';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import InputField from '~/components/InputField/InputField';
+import { IoIosClose } from 'react-icons/io';
+import { LuUserPlus } from 'react-icons/lu';
+import Modal from 'react-modal';
 import { Transition } from 'react-transition-group';
-import { useRef } from 'react';
-import { getToastSuccess, getToastError } from '~/customs/toastMessage/toastMessage';
-import * as request from '~/utils/request';
+import * as Yup from 'yup';
+import Button from '~/components/Button';
+import InputField from '~/components/InputField/InputField';
+import AccountLayout from '~/components/Layout/AccountLayout';
 import Loading from '~/components/Loading';
+import { getToastError, getToastSuccess } from '~/customs/toastMessage/toastMessage';
+import * as request from '~/utils/request';
+
+import CustomersTable from '../Components/Table/CustomersTable/CustomersTable';
+import styles from './Customers.module.scss';
 
 const cx = classNames.bind(styles);
-
-const data = Array.from({ length: 20 }, (_, index) => ({
-    id: `ID_${index + 1}`,
-    name: `User ${index + 1}`,
-    email: `user${index + 1}@example.com`,
-    address: `Address ${index + 1}`,
-}));
-
 export default function Customers() {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [users, setUsers] = useState([]);
@@ -104,7 +95,7 @@ export default function Customers() {
                                 Create new
                             </Button>
                         </div>
-                        <Table data={users} columns={columns} />
+                        <CustomersTable data={users} />
                     </div>
                     <Transition nodeRef={nodeRef.current} in={isOpenModal} timeout={200} classNames="modal">
                         <Modal ref={nodeRef} isOpen={isOpenModal} style={customStylesModal} closeTimeoutMS={200}>

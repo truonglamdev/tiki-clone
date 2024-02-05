@@ -1,0 +1,57 @@
+@import '../../components/Sass/mixin';
+@import '../../components/Sass/variables';
+.paginate {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 1.4rem;
+    border-radius: 6px;
+    color: #fff;
+    max-width: 320px;
+    overflow: hidden;
+}
+
+.container-paginate {
+    background-color: red;
+}
+
+.page,
+.next-btn,
+.prev-btn {
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0 auto;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+
+    @include respond-to(mobile) {
+        width: 16px;
+        font-size: 1.4rem;
+    }
+}
+
+.active-page {
+    background-color: #4fc3a1;
+}
+
+.break-label {
+    font-size: 2.2rem;
+}
+
+.next-btn,
+.prev-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #ccc;
+    }
+}
