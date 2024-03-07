@@ -100,6 +100,14 @@ export default function Header() {
                                 render={(attrs) => (
                                     <div className={cx('dropdown-menu')} tabIndex="-1" {...attrs}>
                                         <WrapperPopper>
+                                            {user && user.isAdmin ? (
+                                                <DropdownItem onClick={() => navigate('/admin/dashboard')}>
+                                                    Admin
+                                                </DropdownItem>
+                                            ) : (
+                                                ''
+                                            )}
+
                                             <DropdownItem onClick={() => navigate('/customer/profile')}>
                                                 My Account
                                             </DropdownItem>

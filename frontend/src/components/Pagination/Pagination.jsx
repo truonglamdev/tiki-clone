@@ -6,7 +6,6 @@ import styles from './Pagination.module.scss';
 
 const cx = classNames.bind(styles);
 function Pagination({ onPageChange, pageCount, pageRangeDisplay = 10 }) {
-    console.log(onPageChange);
     return (
         <ReactPaginate
             nextLabel={<TbPlayerTrackNextFilled />}

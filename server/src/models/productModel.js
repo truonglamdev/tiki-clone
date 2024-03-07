@@ -55,8 +55,8 @@ const productSchema = new Schema({
         default: 0,
     },
 
-    colors: { type: [Schema.Types.Mixed] },
-    sizes: { type: [Schema.Types.Mixed] },
+    colors: [],
+    sizes: [],
 });
 
 const Product = mongoose.model('Product', productSchema);

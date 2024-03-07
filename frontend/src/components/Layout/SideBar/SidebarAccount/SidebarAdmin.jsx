@@ -22,7 +22,7 @@ function SidebarAdmin() {
         },
         {
             title: 'Orders',
-            path: '/admin/order',
+            path: '/admin/orders',
             icon: <IoBagCheckOutline />,
         },
         {
@@ -32,7 +32,7 @@ function SidebarAdmin() {
         },
         {
             title: 'Products',
-            path: '/admin/product',
+            path: '/admin/products',
             icon: <LiaProductHunt />,
         },
         {

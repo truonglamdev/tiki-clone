@@ -13,6 +13,7 @@ import brandRoute from './src/routes/brandRoute.js';
 import blogCategoryRoute from './src/routes/blogCategoryRoute.js';
 import blogRoute from './src/routes/blogRoute.js';
 import authRoute from './src/routes/authRoute.js';
+import categoryRoute from './src/routes/categoryRoute.js';
 // import passportConfig from './src/config/passportConfig.js';
 // import passport from 'passport';
 import expressSession from 'express-session';
@@ -35,7 +36,6 @@ const port = process.env.PORT || 3001;
 //     }),
 // );
 
-
 app.use('/api/v1', userRoute);
 app.use('/api/v1', productRoute);
 app.use('/api/v1', couponRoute);
@@ -45,8 +45,7 @@ app.use('/api/v1', brandRoute);
 app.use('/api/v1', blogCategoryRoute);
 app.use('/api/v1', blogRoute);
 app.use('/api/v1', authRoute);
-
-
+app.use('/api/v1', categoryRoute);
 
 app.listen(port, () => {
     console.log(`Server is listening on port http://localhost:${process.env.PORT}`);

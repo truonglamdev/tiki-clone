@@ -3,6 +3,10 @@ import createMessage from '../utils/createMessage.js';
 
 const createBrandService = async (newBrand) => {
     try {
+        const isExistBrand = await Brand.findOne(newBrand);
+        if (isExistBrand) {
+            return createMessage(200, 'Brand already exist ', { data: isExistBrand });
+        }
         const createBrand = await Brand.create(newBrand);
         return createMessage(200, 'Success', { data: createBrand });
     } catch (error) {

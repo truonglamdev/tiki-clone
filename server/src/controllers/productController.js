@@ -17,13 +17,13 @@ import createErrorMessage from '../utils/errorMessage.js';
 const createProduct = async (req, res) => {
     const createProductSchema = yup.object().shape({
         name: yup.string().required('Name product is required'),
-        images: yup.string().required('Images product is required'),
+        // images: yup.string().required('Images product is required'),
         category: yup.string().required('Category product is required'),
         description: yup.string().required('Description product is required'),
         countInStock: yup.number().required('Count in stock product is required'),
         price: yup.number().required('Price product is required'),
-        rating: yup.number().required('Rating product is required'),
-        discount: yup.number().required('Discount product is required'),
+        // rating: yup.number().required('Rating product is required'),
+        // discount: yup.number().required('Discount product is required'),
         brand: yup.string().required('Brand product is required'),
     });
     try {

@@ -10,6 +10,8 @@ import Profile from '~/pages/Customer/Profile';
 import SearchResult from '~/pages/SearchResult';
 import Dashboard from '~/pages/Admin/Dashboard';
 import Customers from '~/pages/Admin/Customers';
+import Products from '~/pages/Admin/Products';
+import DetailsProducts from '~/pages/Admin/Products/DetailsProducts';
 
 export const routes = [
     {
@@ -22,6 +24,20 @@ export const routes = [
     {
         path: '/admin/customers',
         page: Customers,
+        isShowHeader: true,
+        isPrivate: true,
+        roles: ['admin'],
+    },
+    {
+        path: '/admin/products',
+        page: Products,
+        isShowHeader: true,
+        isPrivate: true,
+        roles: ['admin'],
+    },
+    {
+        path: '/admin/products/details',
+        page: DetailsProducts,
         isShowHeader: true,
         isPrivate: true,
         roles: ['admin'],

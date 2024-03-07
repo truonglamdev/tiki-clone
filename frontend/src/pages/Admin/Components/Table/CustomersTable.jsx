@@ -6,7 +6,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import Button from '~/components/Button';
 import Pagination from '~/components/Pagination';
-import styles from '../StylesTable.module.scss';
+import styles from './StylesTable.module.scss';
 import { FaRegSadCry } from 'react-icons/fa';
 
 const cx = classNames.bind(styles);

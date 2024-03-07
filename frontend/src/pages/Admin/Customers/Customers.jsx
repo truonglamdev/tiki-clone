@@ -14,7 +14,7 @@ import Loading from '~/components/Loading';
 import { getToastError, getToastSuccess } from '~/customs/toastMessage/toastMessage';
 import * as request from '~/utils/request';
 
-import CustomersTable from '../Components/Table/CustomersTable/CustomersTable';
+import CustomersTable from '../Components/Table/CustomersTable';
 import styles from './Customers.module.scss';
 
 const cx = classNames.bind(styles);

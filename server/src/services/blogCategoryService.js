@@ -3,6 +3,10 @@ import createMessage from '../utils/createMessage.js';
 
 const createBlogCategoryService = async (newBlog) => {
     try {
+        const isExistBlogCategory = await BlogCategory.findOne(newBlog);
+        if (isExistBlogCategory) {
+            return createMessage(200, 'BlogCategory already exist ', { data: isExistBlogCategory });
+        }
         const createBCategory = await BlogCategory.create(newBlog);
         return createMessage(200, 'Success', { data: createBCategory });
     } catch (error) {

@@ -23,14 +23,14 @@ function Dashboard() {
                                     <div>Total number of managed users</div>
                                 </div>
                             </Link>
-                            <Link to="/admin/customer" className={cx('cart')}>
+                            <Link to="/admin/products" className={cx('cart')}>
                                 <div className={cx('cart-left')}>
                                     <FiUsers />
                                 </div>
                                 <div className={cx('cart-right')}>
-                                    <div className={cx('title')}>Total users</div>
-                                    <div className={cx('quantity')}>73 users</div>
-                                    <div>Total number of managed users</div>
+                                    <div className={cx('title')}>Total products</div>
+                                    <div className={cx('quantity')}>73 products</div>
+                                    <div>Total number of managed products</div>
                                 </div>
                             </Link>
                             <Link to="/admin/customer" className={cx('cart')}>
